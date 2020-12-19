@@ -35,9 +35,10 @@ public class Queen extends Piece {
             }
         }
         
-        if(diagonal_x != diagonal_y && (this.getX() != destination_x && this.getY() != destination_y)) {
+        if((diagonal_x != diagonal_y) && (this.getX() != destination_x && this.getY() != destination_y)) {
         	return false;
         }
+        
 
         int diagonal_length = diagonal_x;
          
@@ -93,7 +94,7 @@ public class Queen extends Piece {
         } 
          
         if(direction.equals("east")){
-            int spaces_to_move = Math.abs(destination_y - this.getY());
+            int spaces_to_move = Math.abs(destination_x - this.getX());
             for(int i = 1; i < spaces_to_move; i++){
                 Piece p = board.getPiece(this.getX() +i, this.getY());
                 if(p !=null){
@@ -103,7 +104,7 @@ public class Queen extends Piece {
         }       
          
         if(direction.equals("west")){
-            int spaces_to_move = Math.abs(destination_y - this.getY());
+            int spaces_to_move = Math.abs(destination_x - this.getX());
             for(int i = 1; i < spaces_to_move; i++){
                 Piece p = board.getPiece(this.getX() -i, this.getY());
                 if(p !=null){
