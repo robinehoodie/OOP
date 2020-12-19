@@ -80,12 +80,12 @@ public class Pawn extends Piece {
         		return false;
         	}
         	if(distance_x != 1) {
-        		Piece nPiece = board.getPiece(x, y - 1);
-        		Piece nPiece1 = board.getPiece(x, y - 2);
-        		if(nPiece != null) {
+        		Piece move = board.getPiece(x, y - 1);
+        		Piece firstMove = board.getPiece(x, y - 2);
+        		if(move != null) {
         			return false;
         		}
-        		if(distance_y == 2 && nPiece1 != null) {
+        		if(distance_y == 2 && firstMove != null) {
         			return false;
         		}
         	}
@@ -98,12 +98,12 @@ public class Pawn extends Piece {
            		return false;
            	}
            	if(distance_x != 1) {
-           		Piece nPiece = board.getPiece(x, y + 1);
-           		Piece nPiece1 = board.getPiece(x, y + 2);
-           		if(nPiece != null) {
+           		Piece move = board.getPiece(x, y + 1);
+           		Piece firstMove = board.getPiece(x, y + 2);
+           		if(move != null) {
            			return false;
            		}
-           		if(distance_y == 2 && nPiece1 != null) {
+           		if(distance_y == 2 && firstMove != null) {
            			return false;
            		}
         	}
