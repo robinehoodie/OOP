@@ -24,8 +24,25 @@ public class Knight extends Piece {
         //  *                                 * *
             
                 // WRITE CODE HERE
+        int x = this.getX();
+    	int y = this.getY();
+    	
+    	int diagonal_y = Math.abs(destination_y - y);
+    	int diagonal_x = Math.abs(destination_x - x);
+ 
+        Piece pPiece = board.getPiece(destination_x, destination_y);
+        if( pPiece != null) {
+        	if(pPiece.isWhite() && this.isWhite()) {
+        		return false;
+        	}
+        	else if(pPiece.isBlack() && this.isBlack()) {
+        		return false;
+        	}
+        }
         
-        
-        return true;
+        if(((diagonal_x == 2 && diagonal_y == 1)||(diagonal_y == 2 && diagonal_x == 1))) {
+        	return true;
+        }
+        return false; 
     }
 }
