@@ -3,6 +3,7 @@ package chessgui.pieces;
 import javax.management.monitor.GaugeMonitor;
 
 import chessgui.Board;
+import jdk.tools.jlink.internal.SymLinkResourcePoolEntry;
 
 public class King extends Piece {
 
@@ -93,28 +94,33 @@ public class King extends Piece {
                 Piece queenSide2black = board.getPiece(2,0);
                 Piece queenSide3black = board.getPiece(3,0);
                 Piece queenRookblack = board.getPiece(0,0);
-                Piece kingRookblack = board.getPiece(7,0);               
-                    if(destination_x==6&&kingSide1==null&&kingSide2==null&&this.has_castled==false&&this.has_moved==false){
+                Piece kingRookblack = board.getPiece(7,0);     
+                if(this.isWhite()){
+                    if(destination_x==6&&kingSide1==null&&kingSide2==null&&this.has_castled==false&&this.has_moved==false){//castling
                         this.setX(6);
-                        if(this.isWhite()){
-                            kingRook.setX(5);
-                        }else{
-                            kingRookblack.setX(5);
-                        }
+                        kingRook.setX(5);
+                        this.has_castled=true;
+                        this.has_moved=true;    
+                    }
+                    if(destination_x==2&&queenSide1==null&&queenSide2==null&&queenSide3==null&&queenRook!=null&&this.has_castled==false&&this.has_moved==false){
+                        this.setX(2);
+                        queenRook.setX(3);
+                        this.has_castled=true;
+                        this.has_moved=true;    
+                    }  
+                }else{
+                    if(destination_x==6&&kingSide1black==null&&kingSide2black==null&&this.has_castled==false&&this.has_moved==false){ 
+                        kingRookblack.setX(5);  
                         this.has_castled=true;
                         this.has_moved=true;    
                     }
 
-                    if(destination_x==2&&queenSide1==null&&queenSide2==null&&queenSide3==null&&queenRook!=null&&this.has_castled==false&&this.has_moved==false){
-                        this.setX(2);
-                        if(this.isWhite()){
-                            queenRook.setX(3);
-                        }else{
-                            queenRookblack.setX(3);
-                        }
+                    if(destination_x==2&&queenSide1black==null&&queenSide2black==null&&queenSide3black==null&&queenRookblack!=null&&this.has_castled==false&&this.has_moved==false){
+                        queenRookblack.setX(3);
                         this.has_castled=true;
                         this.has_moved=true;    
-                    }      
+                    }
+                }
         }else{
             if(direction.equals("south")){
                 int spaces_to_move = Math.abs(destination_y - this.getY());
