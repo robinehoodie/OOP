@@ -1,17 +1,25 @@
 package chessgui.pieces;
 
+import javax.management.monitor.GaugeMonitor;
+
 import chessgui.Board;
+import jdk.tools.jlink.internal.SymLinkResourcePoolEntry;
 
 public class King extends Piece {
+
+    private boolean has_moved=false;
+    private boolean has_castled=false;
 
     public King(int x, int y, boolean is_white, String file_path, Board board)
     {
         super(x,y,is_white,file_path, board);
     }
-    
+
     @Override
     public boolean canMove(int destination_x, int destination_y)
     {
+
+        Piece possiblePiece = board.getPiece(destination_x, destination_y);
         // Remember: a king can move one square up, right, left, or down, or
         // diagonally, but he can never put himself in danger of an oposing 
         // piece attacking him on the next turn. He cannot attack his own pieces.
@@ -19,11 +27,10 @@ public class King extends Piece {
                 // WRITE CODE HERE
     	int x = this.getX();
     	int y = this.getY();
-    	
+
     	int diagonal_y = Math.abs(destination_y - y);
     	int diagonal_x = Math.abs(destination_x - x);        
         
-        Piece possiblePiece = board.getPiece(destination_x, destination_y);
         
         if(possiblePiece !=null){
             if(possiblePiece.isWhite()&&this.isWhite()){
@@ -38,7 +45,6 @@ public class King extends Piece {
         	return false;
         }
         
-
         int diagonal_length = diagonal_x;
          
         String direction = "";
@@ -71,83 +77,122 @@ public class King extends Piece {
         if(destination_y < y && destination_x > x) {
         	direction = "northeast";
         }
-        
-        if(direction.equals("south")){
-            int spaces_to_move = Math.abs(destination_y - this.getY());
-            for(int i = 1; i < spaces_to_move; i++){
-                Piece p = board.getPiece(this.getX(), this.getY());
-                if(p !=null){
-                    return false;
+     
+        if((destination_x==6||destination_x==2)){
+                Piece kingSide1 = board.getPiece(5,7);
+                Piece kingSide2 = board.getPiece(6,7);
+                Piece queenSide1 = board.getPiece(1,7);
+                Piece queenSide2 = board.getPiece(2,7);
+                Piece queenSide3 = board.getPiece(3,7);
+                Piece queenRook = board.getPiece(0,7);
+                Piece kingRook = board.getPiece(7,7);
+
+
+                Piece kingSide1black = board.getPiece(5,0);
+                Piece kingSide2black = board.getPiece(6,0);
+                Piece queenSide1black = board.getPiece(1,0);
+                Piece queenSide2black = board.getPiece(2,0);
+                Piece queenSide3black = board.getPiece(3,0);
+                Piece queenRookblack = board.getPiece(0,0);
+                Piece kingRookblack = board.getPiece(7,0);               
+                    if(destination_x==6&&kingSide1==null&&kingSide2==null&&this.has_castled==false&&this.has_moved==false){
+                        this.setX(6);
+                        if(this.isWhite()){
+                            kingRook.setX(5);
+                        }else{
+                            kingRookblack.setX(5);
+                        }
+                        this.has_castled=true;
+                        this.has_moved=true;    
+                    }
+
+                    if(destination_x==2&&queenSide1==null&&queenSide2==null&&queenSide3==null&&queenRook!=null&&this.has_castled==false&&this.has_moved==false){
+                        this.setX(2);
+                        if(this.isWhite()){
+                            queenRook.setX(3);
+                        }else{
+                            queenRookblack.setX(3);
+                        }
+                        this.has_castled=true;
+                        this.has_moved=true;    
+                    }      
+        }else{
+            if(direction.equals("south")){
+                int spaces_to_move = Math.abs(destination_y - this.getY());
+                for(int i = 1; i < spaces_to_move; i++){
+                    Piece p = board.getPiece(this.getX(), this.getY());
+                    if(p !=null){
+                        return false;
+                    }
                 }
             }
-        }
-        
-        if(direction.equals("north")){
-            int spaces_to_move = Math.abs(destination_y - this.getY());
-            for(int i = 1; i < spaces_to_move; i++){
-                Piece p = board.getPiece(this.getX(), this.getY());
-                if(p !=null){
-                    return false;
+            
+            if(direction.equals("north")){
+                int spaces_to_move = Math.abs(destination_y - this.getY());
+                for(int i = 1; i < spaces_to_move; i++){
+                    Piece p = board.getPiece(this.getX(), this.getY());
+                    if(p !=null){
+                        return false;
+                    }
+                }
+            } 
+             
+            if(direction.equals("east")){
+                int spaces_to_move = Math.abs(destination_x - this.getX());
+                for(int i = 1; i < spaces_to_move; i++){
+                    Piece p = board.getPiece(this.getX(), this.getY());
+                    if(p !=null){
+                        return false;
+                    }
+                }
+            }       
+             
+            if(direction.equals("west")){
+                int spaces_to_move = Math.abs(destination_x - this.getX());
+                for(int i = 1; i < spaces_to_move; i++){
+                    Piece p = board.getPiece(this.getX(), this.getY());
+                    if(p !=null){
+                        return false;
+                    }
                 }
             }
-        } 
-         
-        if(direction.equals("east")){
-            int spaces_to_move = Math.abs(destination_x - this.getX());
-            for(int i = 1; i < spaces_to_move; i++){
-                Piece p = board.getPiece(this.getX(), this.getY());
-                if(p !=null){
-                    return false;
+             
+            if(direction.equals("southeast")) {
+                for(int i = 1; i < diagonal_length; i++) {
+                Piece p = board.getPiece(x, y);
+                    if( p != null) {
+                            return false;
+                    }
                 }
             }
-        }       
-         
-        if(direction.equals("west")){
-            int spaces_to_move = Math.abs(destination_x - this.getX());
-            for(int i = 1; i < spaces_to_move; i++){
-                Piece p = board.getPiece(this.getX(), this.getY());
-                if(p !=null){
-                    return false;
+            
+            if(direction.equals("northeast")) {
+                for(int i = 1; i < diagonal_length; i++) {
+                Piece p = board.getPiece(x, y);
+                    if( p != null) {
+                        return false;
+                    }
                 }
             }
-        }
-         
-        if(direction.equals("southeast")) {
-            for(int i = 1; i < diagonal_length; i++) {
-        	Piece p = board.getPiece(x, y);
-        	if( p != null) {
-                    return false;
-        	}
-            }
-        }
-        
-        if(direction.equals("northeast")) {
-            for(int i = 1; i < diagonal_length; i++) {
-        	Piece p = board.getPiece(x, y);
-                if( p != null) {
-                    return false;
+            
+            if(direction.equals("southwest")) {
+                for(int i = 1; i < diagonal_length; i++) {
+                Piece p = board.getPiece(x, y);
+                    if( p != null) {
+                            return false;
+                    }
                 }
             }
-        }
-        
-        if(direction.equals("southwest")) {
-            for(int i = 1; i < diagonal_length; i++) {
-        	Piece p = board.getPiece(x, y);
-        	if( p != null) {
-                    return false;
-        	}
+            
+            if(direction.equals("northwest")) {
+                for(int i = 1; i < diagonal_length; i++) {
+                Piece p = board.getPiece(x, y);
+                    if( p != null) {
+                            return false;
+                    }
+                }
             }
-        }
-        
-        if(direction.equals("northwest")) {
-            for(int i = 1; i < diagonal_length; i++) {
-        	Piece p = board.getPiece(x, y);
-        	if( p != null) {
-                    return false;
-        	}
-            }
-        }
-           
+        }        
     return true;
     
     }
