@@ -1,7 +1,6 @@
 package chessgui.pieces;
 
 import chessgui.Board;
-import jdk.tools.jlink.internal.SymLinkResourcePoolEntry;
 
 public class King extends Piece {
 
