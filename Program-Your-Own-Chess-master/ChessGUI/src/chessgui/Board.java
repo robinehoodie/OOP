@@ -26,7 +26,7 @@ public class Board extends JComponent {
     public ArrayList<DrawingShape> Piece_Graphics;
 
     public Piece Active_Piece;
-
+    
     private final int rows = 8;
     private final int cols = 8;
     private Integer[][] BoardGrid;
@@ -46,39 +46,39 @@ public class Board extends JComponent {
         //Image white_piece = loadImage("images/white_pieces/" + piece_name + ".png");
         //Image black_piece = loadImage("images/black_pieces/" + piece_name + ".png");  
 
-        White_Pieces.add(new King(3,0,true,"King.png",this));
-        White_Pieces.add(new Queen(4,0,true,"Queen.png",this));
-        White_Pieces.add(new Bishop(2,0,true,"Bishop.png",this));
-        White_Pieces.add(new Bishop(5,0,true,"Bishop.png",this));
-        White_Pieces.add(new Knight(1,0,true,"Knight.png",this));
-        White_Pieces.add(new Knight(6,0,true,"Knight.png",this));
-        White_Pieces.add(new Rook(0,0,true,"Rook.png",this));
-        White_Pieces.add(new Rook(7,0,true,"Rook.png",this));
-        White_Pieces.add(new Pawn(0,1,true,"Pawn.png",this));
-        White_Pieces.add(new Pawn(1,1,true,"Pawn.png",this));
-        White_Pieces.add(new Pawn(2,1,true,"Pawn.png",this));
-        White_Pieces.add(new Pawn(3,1,true,"Pawn.png",this));
-        White_Pieces.add(new Pawn(4,1,true,"Pawn.png",this));
-        White_Pieces.add(new Pawn(5,1,true,"Pawn.png",this));
-        White_Pieces.add(new Pawn(6,1,true,"Pawn.png",this));
-        White_Pieces.add(new Pawn(7,1,true,"Pawn.png",this));
+        Black_Pieces.add(new King(4,0,false,"King.png",this));
+        Black_Pieces.add(new Queen(3,0,false,"Queen.png",this));
+        Black_Pieces.add(new Bishop(2,0,false,"Bishop.png",this));
+        Black_Pieces.add(new Bishop(5,0,false,"Bishop.png",this));
+        Black_Pieces.add(new Knight(1,0,false,"Knight.png",this));
+        Black_Pieces.add(new Knight(6,0,false,"Knight.png",this));
+        Black_Pieces.add(new Rook(0,0,false,"Rook.png",this));
+        Black_Pieces.add(new Rook(7,0,false,"Rook.png",this));
+        Black_Pieces.add(new Pawn(0,1,false,"Pawn.png",this));
+        Black_Pieces.add(new Pawn(1,1,false,"Pawn.png",this));
+        Black_Pieces.add(new Pawn(2,1,false,"Pawn.png",this));
+        Black_Pieces.add(new Pawn(3,1,false,"Pawn.png",this));
+        Black_Pieces.add(new Pawn(4,1,false,"Pawn.png",this));
+        Black_Pieces.add(new Pawn(5,1,false,"Pawn.png",this));
+        Black_Pieces.add(new Pawn(6,1,false,"Pawn.png",this));
+        Black_Pieces.add(new Pawn(7,1,false,"Pawn.png",this));
 
-        Black_Pieces.add(new King(3,7,false,"King.png",this));
-        Black_Pieces.add(new Queen(4,7,false,"Queen.png",this));
-        Black_Pieces.add(new Bishop(2,7,false,"Bishop.png",this));
-        Black_Pieces.add(new Bishop(5,7,false,"Bishop.png",this));
-        Black_Pieces.add(new Knight(1,7,false,"Knight.png",this));
-        Black_Pieces.add(new Knight(6,7,false,"Knight.png",this));
-        Black_Pieces.add(new Rook(0,7,false,"Rook.png",this));
-        Black_Pieces.add(new Rook(7,7,false,"Rook.png",this));
-        Black_Pieces.add(new Pawn(0,6,false,"Pawn.png",this));
-        Black_Pieces.add(new Pawn(1,6,false,"Pawn.png",this));
-        Black_Pieces.add(new Pawn(2,6,false,"Pawn.png",this));
-        Black_Pieces.add(new Pawn(3,6,false,"Pawn.png",this));
-        Black_Pieces.add(new Pawn(4,6,false,"Pawn.png",this));
-        Black_Pieces.add(new Pawn(5,6,false,"Pawn.png",this));
-        Black_Pieces.add(new Pawn(6,6,false,"Pawn.png",this));
-        Black_Pieces.add(new Pawn(7,6,false,"Pawn.png",this));
+        White_Pieces.add(new King(4,7,true,"King.png",this));
+        White_Pieces.add(new Queen(3,7,true,"Queen.png",this));
+        White_Pieces.add(new Bishop(2,7,true,"Bishop.png",this));
+        White_Pieces.add(new Bishop(5,7,true,"Bishop.png",this));
+        White_Pieces.add(new Knight(1,7,true,"Knight.png",this));
+        White_Pieces.add(new Knight(6,7,true,"Knight.png",this));
+        White_Pieces.add(new Rook(0,7,true,"Rook.png",this));
+        White_Pieces.add(new Rook(7,7,true,"Rook.png",this));
+        White_Pieces.add(new Pawn(0,6,true,"Pawn.png",this));
+        White_Pieces.add(new Pawn(1,6,true,"Pawn.png",this));
+        White_Pieces.add(new Pawn(2,6,true,"Pawn.png",this));
+        White_Pieces.add(new Pawn(3,6,true,"Pawn.png",this));
+        White_Pieces.add(new Pawn(4,6,true,"Pawn.png",this));
+        White_Pieces.add(new Pawn(5,6,true,"Pawn.png",this));
+        White_Pieces.add(new Pawn(6,6,true,"Pawn.png",this));
+        White_Pieces.add(new Pawn(7,6,true,"Pawn.png",this));
 
     }
 
@@ -92,8 +92,8 @@ public class Board extends JComponent {
 
         initGrid();
 
-        this.setBackground(new Color(0,0,0));
-        this.setPreferredSize(new Dimension(520, 570));
+        this.setBackground(new Color(37,13,84));
+        this.setPreferredSize(new Dimension(520, 520));
         this.setMinimumSize(new Dimension(100, 100));
         this.setMaximumSize(new Dimension(1000, 1000));
 
@@ -139,8 +139,9 @@ public class Board extends JComponent {
         this.repaint();
     }
 
-    
+///////////////////////////////////////IMPORTANT/////////////////////////////////////////////////////////////////////////////////////////////////////////    
     public Piece getPiece(int x, int y) {
+
         for (Piece p : White_Pieces)
         {
             if (p.getX() == x && p.getY() == y)
@@ -170,8 +171,11 @@ public class Board extends JComponent {
         public void mousePressed(MouseEvent e) {
             int d_X = e.getX();
             int d_Y = e.getY();  
-            int Clicked_Row = d_Y / Square_Width;
-            int Clicked_Column = d_X / Square_Width;
+        
+            int Clicked_Row = d_Y / Square_Width;//65
+        
+            int Clicked_Column = d_X / Square_Width;//65
+        
             boolean is_whites_turn = true;
             if (turnCounter%2 == 1)
             {
@@ -180,8 +184,7 @@ public class Board extends JComponent {
             
             Piece clicked_piece = getPiece(Clicked_Column, Clicked_Row);
             
-            if (Active_Piece == null && clicked_piece != null && 
-                    ((is_whites_turn && clicked_piece.isWhite()) || (!is_whites_turn && clicked_piece.isBlack())))
+            if (Active_Piece == null && clicked_piece != null && ((is_whites_turn && clicked_piece.isWhite()) || (!is_whites_turn && clicked_piece.isBlack())))
             {
                 Active_Piece = clicked_piece;
             }
@@ -189,7 +192,7 @@ public class Board extends JComponent {
             {
                 Active_Piece = null;
             }
-            else if (Active_Piece != null && Active_Piece.canMove(Clicked_Column, Clicked_Row) 
+            else if (Active_Piece != null && Active_Piece.canMove(Clicked_Column, Clicked_Row) // THIS IS THE METHOD WE'RE WORKING ON
                     && ((is_whites_turn && Active_Piece.isWhite()) || (!is_whites_turn && Active_Piece.isBlack())))
             {
                 // if piece is there, remove it so we can be there
@@ -222,7 +225,7 @@ public class Board extends JComponent {
             
             drawBoard();
         }
-
+///////////////////////////////////////IMPORTANT/////////////////////////////////////////////////////////////////////////////////////////////////////////   
         @Override
         public void mouseDragged(MouseEvent e) {		
         }
