@@ -4,9 +4,15 @@ import chessgui.Board;
 
 public class Rook extends Piece {
 
+    private boolean has_moved;
+    private boolean has_castled;
+
     public Rook(int x, int y, boolean is_white, String file_path, Board board)
     {
         super(x,y,is_white,file_path, board);
+        has_moved=false;
+        has_castled=false;
+
     }
     
     @Override
@@ -22,7 +28,7 @@ public class Rook extends Piece {
                 return false;
             }
 
-            if (possiblePiece.isWhite() && this.isWhite())
+            if (possiblePiece.isBlack() && this.isBlack())
             {
                 return false;
             }
