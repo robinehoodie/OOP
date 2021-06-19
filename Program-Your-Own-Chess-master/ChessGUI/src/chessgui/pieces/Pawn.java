@@ -73,7 +73,7 @@ public class Pawn extends Piece {
         }
         
         if("north".equals(direction)) {
-        	if(this.isWhite()) {
+        	if(this.isBlack()) {
         		return false;
         	}
         	if(p == null && distance_x == 1) {
@@ -91,7 +91,7 @@ public class Pawn extends Piece {
         	}
         }
         if("south".equals(direction)) {
-        	if(this.isBlack()) {
+        	if(this.isWhite()) {
         		return false;
        		}
        		if(p == null && distance_x == 1) {
