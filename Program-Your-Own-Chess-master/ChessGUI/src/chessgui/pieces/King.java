@@ -1,7 +1,5 @@
 package chessgui.pieces;
 
-import javax.management.monitor.GaugeMonitor;
-
 import chessgui.Board;
 
 public class King extends Piece {
