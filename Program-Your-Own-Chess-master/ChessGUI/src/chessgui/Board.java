@@ -192,7 +192,7 @@ public class Board extends JComponent {
             {
                 Active_Piece = null;
             }
-            else if (Active_Piece != null && Active_Piece.canMove(Clicked_Column, Clicked_Row) // THIS IS THE METHOD WE'RE WORKING ON
+            else if (Active_Piece != null && Active_Piece.canMove(Clicked_Column, Clicked_Row) 
                     && ((is_whites_turn && Active_Piece.isWhite()) || (!is_whites_turn && Active_Piece.isBlack())))
             {
                 // if piece is there, remove it so we can be there
