@@ -4,9 +4,9 @@ import chessgui.Board;
 
 public class Bishop extends Piece {
 
-    public Bishop(int x, int y, boolean is_white, String file_path, Board board)
+    public Bishop(int x, int y, boolean is_white, String file_path, Board board, String PIECETYPE, boolean pass)
     {
-        super(x,y,is_white,file_path, board);
+        super(x,y,is_white,file_path, board, PIECETYPE,pass);
     }
     
     @Override

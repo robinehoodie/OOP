@@ -4,9 +4,9 @@ import chessgui.Board;
 
 public class Queen extends Piece {
 
-    public Queen(int x, int y, boolean is_white, String file_path, Board board)
+    public Queen(int x, int y, boolean is_white, String file_path, Board board, String PIECETYPE, boolean pass)
     {
-        super(x,y,is_white,file_path, board);
+        super(x,y,is_white,file_path, board, PIECETYPE, pass);
     }
     
     @Override
@@ -16,8 +16,8 @@ public class Queen extends Piece {
         // backward, sideways, or diagonally, without jumping over any pieces.
         // She cannot attack her own pieces.
         
-        // WRITE CODE HERE
-        
+        // WRITE CODE HERE     
+
     	int x = this.getX();
     	int y = this.getY();
     	

@@ -8,14 +8,20 @@ public class Piece {
     final private boolean is_white;
     private String file_path;
     public Board board;
+    public boolean has_moved;
+    public String PIECETYPE;
+    public boolean pass;
     
-    public Piece(int x, int y, boolean is_white, String file_path, Board board)
+    public Piece(int x, int y, boolean is_white, String file_path, Board board, String PIECETYPE,boolean pass)
     {
         this.is_white = is_white;
         this.x = x;
         this.y = y;
         this.file_path = file_path;
         this.board = board;
+        this.has_moved=false;
+        this.PIECETYPE=PIECETYPE;
+        this.pass=false;
     }
     
     public String getFilePath()

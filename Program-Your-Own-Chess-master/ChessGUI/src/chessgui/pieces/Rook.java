@@ -4,21 +4,14 @@ import chessgui.Board;
 
 public class Rook extends Piece {
 
-    private boolean has_moved;
-    private boolean has_castled;
-
-    public Rook(int x, int y, boolean is_white, String file_path, Board board)
+    public Rook(int x, int y, boolean is_white, String file_path, Board board, String PIECETYPE, boolean pass)
     {
-        super(x,y,is_white,file_path, board);
-        has_moved=false;
-        has_castled=false;
-
+        super(x,y,is_white,file_path, board, PIECETYPE, pass);
     }
     
     @Override
     public boolean canMove(int destination_x, int destination_y)
     {
-        
         Piece possiblePiece = board.getPiece(destination_x, destination_y);
         
         if(possiblePiece != null)
