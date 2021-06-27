@@ -21,7 +21,7 @@ public class Piece {
         this.board = board;
         this.has_moved=false;
         this.PIECETYPE=PIECETYPE;
-        this.pass=false;
+        this.pass=false; 
     }
     
     public String getFilePath()
