@@ -3,7 +3,6 @@ package chessgui.pieces;
 import javax.management.monitor.GaugeMonitor;
 
 import chessgui.Board;
-import jdk.tools.jlink.internal.SymLinkResourcePoolEntry;
 
 public class King extends Piece {
 

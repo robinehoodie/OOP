@@ -103,7 +103,7 @@ public class Board extends JComponent {
         initGrid(P,0,0);
 
         this.setBackground(new Color(37,13,84));
-        this.setPreferredSize(new Dimension(520, 520));
+        this.setPreferredSize(new Dimension(520, 570));
         this.setMinimumSize(new Dimension(100, 100));
         this.setMaximumSize(new Dimension(1000, 1000));
 
