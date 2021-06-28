@@ -3,6 +3,7 @@ package chessgui.pieces;
 import javax.management.monitor.GaugeMonitor;
 
 import chessgui.Board;
+import jdk.tools.jlink.internal.SymLinkResourcePoolEntry;
 
 public class King extends Piece {
 
@@ -96,7 +97,7 @@ public class King extends Piece {
                             return true;  
                           
                         }
-                        if(destination_x==2&&queenSide1==null&&queenSide2==null&&queenSide3==null&&queenRook!=null&&this.has_moved==false){
+                        if(destination_x==2&&queenSide1==null&&queenSide2==null&&queenSide3==null&&queenRook!=null&&this.has_moved==false&&queenRook.has_moved==false){
                             this.setX(2);
                             queenRook.setX(3);
                             this.has_moved=true;  
@@ -113,7 +114,7 @@ public class King extends Piece {
                         
                         }
     
-                        if(destination_x==2&&queenSide1black==null&&queenSide2black==null&&queenSide3black==null&&queenRookblack!=null&&this.has_moved==false){
+                        if(destination_x==2&&queenSide1black==null&&queenSide2black==null&&queenSide3black==null&&queenRookblack!=null&&this.has_moved==false&&queenRook.has_moved==false){
                             queenRookblack.setX(3);
                             this.has_moved=true;  
                             queenRookblack.has_moved=true;
