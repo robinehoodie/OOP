@@ -282,6 +282,10 @@ public class Board extends JComponent {
                                     break;
                                 }
                             }else if(p!=null&&p.isBlack()){
+                                if((i==destination_x+1)&&p.PIECETYPE.equals("KING")){
+                                    return false;
+                                }
+
                                 if(i==destination_x||!(p.PIECETYPE.equals("ROOK")||p.PIECETYPE.equals("QUEEN"))){
                                     ret=true;
                                     break;
@@ -309,6 +313,10 @@ public class Board extends JComponent {
                                     break;
                                 }
                             }else if(p!=null&&p.isBlack()){
+
+                                if((i==destination_x-1)&&p.PIECETYPE.equals("KING")){
+                                    return false;
+                                }
                                 if(i==destination_x||!(p.PIECETYPE.equals("ROOK")||p.PIECETYPE.equals("QUEEN"))){
                                     ret=true;
                                     break;
@@ -337,6 +345,10 @@ public class Board extends JComponent {
                                     break;
                                 }
                             }else if(p!=null&&p.isBlack()){
+                                if((i==destination_y-1)&&p.PIECETYPE.equals("KING")){
+                                    return false;
+                                }
+
                                 if(i==destination_y||!(p.PIECETYPE.equals("ROOK")||p.PIECETYPE.equals("QUEEN"))){
                                     ret=true;
                                     break;
@@ -365,6 +377,9 @@ public class Board extends JComponent {
                                     break;
                                 }
                             }else if(p!=null&&p.isBlack()){
+                                if((i==destination_y+1)&&p.PIECETYPE.equals("KING")){
+                                    return false;
+                                }
                                 if(i==destination_y||!(p.PIECETYPE.equals("ROOK")||p.PIECETYPE.equals("QUEEN"))){
                                     ret=true;
                                     break;
@@ -391,7 +406,7 @@ public class Board extends JComponent {
                                 break;
                             }
                         }else if(p!=null&&p.isBlack()){
-                            if((x==destination_x+1&&y==destination_y-1)&&p.PIECETYPE.equals("PAWN")){
+                            if((x==destination_x+1&&y==destination_y-1)&&(p.PIECETYPE.equals("PAWN")||p.PIECETYPE.equals("KING"))){
                                 return false;
                             }
     
@@ -422,7 +437,7 @@ public class Board extends JComponent {
                                 break;
                             }
                         }else if(p!=null&&p.isBlack()){
-                            if((x==destination_x-1&&y==destination_y-1)&&p.PIECETYPE.equals("PAWN")){
+                            if((x==destination_x-1&&y==destination_y-1)&&(p.PIECETYPE.equals("PAWN")||p.PIECETYPE.equals("KING"))){
                                 return false;
                             }
     
@@ -453,7 +468,7 @@ public class Board extends JComponent {
                                 break;
                             }
                         }else if(p!=null&&p.isBlack()){
-                            if((x==destination_x+1&&y==destination_y+1)&&p.PIECETYPE.equals("PAWN")){
+                            if((x==destination_x+1&&y==destination_y+1)&&(p.PIECETYPE.equals("PAWN")||p.PIECETYPE.equals("KING"))){
                                 return false;
                             }
                             if((x==destination_x&&y==destination_y)||!(p.PIECETYPE.equals("BISHOP")||p.PIECETYPE.equals("QUEEN"))){
@@ -483,7 +498,7 @@ public class Board extends JComponent {
                                 break;
                             }
                         }else if(p!=null&&p.isBlack()){
-                            if((x==destination_x-1&&y==destination_y+1)&&p.PIECETYPE.equals("PAWN")){
+                            if((x==destination_x-1&&y==destination_y+1)&&(p.PIECETYPE.equals("PAWN")||p.PIECETYPE.equals("KING"))){
                                 return false;
                             }
                             if((x==destination_x&&y==destination_y)||!(p.PIECETYPE.equals("BISHOP")||p.PIECETYPE.equals("QUEEN"))){
@@ -972,7 +987,7 @@ public class Board extends JComponent {
                     }
                 }
             }
-       }else{
+       }else{//BLACK BLACK BLACK BLACK BLACK BLACK BLACK BLACK BLACK BLACK BLACK BLACK BLACK BLACK BLACK BLACK BLACK BLACK BLACK BLACK BLACK BLACK BLACK BLACK BLACK BLACK BLACK BLACK BLACK BLACK 
         if(candidate_Piece.PIECETYPE.equals("KING")){
             for(a=0;a<9;a++){
                 if(Directions[a].equals("EAST")){
@@ -989,6 +1004,9 @@ public class Board extends JComponent {
                                 break;
                             }
                         }else if(p!=null&&p.isWhite()){
+                            if((i==destination_x-1)&&p.PIECETYPE.equals("KING")){
+                                return false;
+                            }
                             if(i==destination_x||!(p.PIECETYPE.equals("ROOK")||p.PIECETYPE.equals("QUEEN"))){
                                 ret=true;
                                 break;
@@ -1016,6 +1034,9 @@ public class Board extends JComponent {
                                 break;
                             }
                         }else if(p!=null&&p.isWhite()){
+                            if((i==destination_x+1)&&p.PIECETYPE.equals("KING")){
+                                return false;
+                            }
                             if(i==destination_x||!(p.PIECETYPE.equals("ROOK")||p.PIECETYPE.equals("QUEEN"))){
                                 ret=true;
                                 break;
@@ -1042,6 +1063,9 @@ public class Board extends JComponent {
                                 break;
                             }
                         }else if(p!=null&&p.isWhite()){
+                            if((i==destination_y+1)&&p.PIECETYPE.equals("KING")){
+                                return false;
+                            }
                             if(i==destination_y||!(p.PIECETYPE.equals("ROOK")||p.PIECETYPE.equals("QUEEN"))){
                                 ret=true;
                                 break;
@@ -1068,6 +1092,9 @@ public class Board extends JComponent {
                                 break;
                             }
                         }else if(p!=null&&p.isWhite()){
+                            if((i==destination_y-1)&&p.PIECETYPE.equals("KING")){
+                                return false;
+                            }
                             if(i==destination_y||!(p.PIECETYPE.equals("ROOK")||p.PIECETYPE.equals("QUEEN"))){
                                 ret=true;
                                 break;
@@ -1094,7 +1121,7 @@ public class Board extends JComponent {
                             break;
                         }
                     }else if(p!=null&&p.isWhite()){
-                        if((x==destination_x+1&&y==destination_y-1)&&p.PIECETYPE.equals("PAWN")){
+                        if((x==destination_x-1&&y==destination_y+1)&&(p.PIECETYPE.equals("PAWN")||p.PIECETYPE.equals("KING"))){
                             return false;
                         }
                         if((x==destination_x&&y==destination_y)||!(p.PIECETYPE.equals("BISHOP")||p.PIECETYPE.equals("QUEEN"))){
@@ -1124,7 +1151,7 @@ public class Board extends JComponent {
                             break;
                         }
                     }else if(p!=null&&p.isWhite()){
-                        if((x==destination_x-1&&y==destination_y-1)&&p.PIECETYPE.equals("PAWN")){
+                        if((x==destination_x+1&&y==destination_y+1)&&(p.PIECETYPE.equals("PAWN")||p.PIECETYPE.equals("KING"))){
                             return false;
                         }
 
@@ -1155,7 +1182,7 @@ public class Board extends JComponent {
                             break;
                         }
                     }else if(p!=null&&p.isWhite()){
-                        if((x==destination_x+1&&y==destination_y+1)&&p.PIECETYPE.equals("PAWN")){
+                        if((x==destination_x-1&&y==destination_y-1)&&(p.PIECETYPE.equals("PAWN")||p.PIECETYPE.equals("KING"))){
                             return false;
                         }
                         if((x==destination_x&&y==destination_y)||!(p.PIECETYPE.equals("BISHOP")||p.PIECETYPE.equals("QUEEN"))){
@@ -1185,7 +1212,7 @@ public class Board extends JComponent {
                             break;
                         }
                     }else if(p!=null&&p.isWhite()){
-                        if((x==destination_x-1&&y==destination_y+1)&&p.PIECETYPE.equals("PAWN")){
+                        if((x==destination_x+1&&y==destination_y-1)&&(p.PIECETYPE.equals("PAWN")||p.PIECETYPE.equals("KING"))){
                             return false;
                         }
                         if((x==destination_x&&y==destination_y)||!(p.PIECETYPE.equals("BISHOP")||p.PIECETYPE.equals("QUEEN"))){
