@@ -79,6 +79,7 @@ public class Rook extends Piece {
                     }
                 }
             }
+            this.has_moved=true;
             return true;
         }else{
             return false;
