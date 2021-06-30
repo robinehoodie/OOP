@@ -24,6 +24,7 @@ public class Board extends JComponent {
 
     public ArrayList<DrawingShape> Static_Shapes;
     public ArrayList<DrawingShape> Piece_Graphics;
+    public ArrayList<DrawingShape> Promotion_Pieces;
 
     public Piece Active_Piece;
     public Piece candidate_Piece;
@@ -35,6 +36,9 @@ public class Board extends JComponent {
     private Integer[][] BoardGrid;
     private String board_file_path = "images" + File.separator + "board.png";
     private String active_square_file_path = "images" + File.separator + "active_square.png";
+
+
+    public int choice;
 
     public void initGrid(Piece P,int row, int col){
         for (int i = 0; i < rows; i++){
@@ -97,6 +101,7 @@ public class Board extends JComponent {
         Piece_Graphics = new ArrayList();
         White_Pieces = new ArrayList();
         Black_Pieces = new ArrayList();
+        Promotion_Pieces = new ArrayList();
 
         Piece P=null;
 
@@ -115,7 +120,6 @@ public class Board extends JComponent {
         this.requestFocus();
         drawBoard();
     }
-
 
     private void drawBoard(){
         Piece_Graphics.clear();
@@ -246,6 +250,8 @@ public class Board extends JComponent {
             drawBoard();
         }
 
+
+
         @Override
         public void mouseDragged(MouseEvent e) {		
         }
@@ -260,6 +266,7 @@ public class Board extends JComponent {
 
         
     };
+
 
     public boolean validation(int destination_x, int destination_y, String pieceType){
         int a,i,j,x,y;
@@ -765,6 +772,11 @@ public class Board extends JComponent {
                                             if(destination_x==i&&destination_y==j){
                                                 return true;
                                             }
+
+                                            if((i==x+1&&j==y-1)&&p.PIECETYPE.equals("PAWN")){
+                                                return false;
+                                            }
+
                                             if(p.PIECETYPE.equals("BISHOP")||p.PIECETYPE.equals("QUEEN")){
                                                 return false;
                                             }
@@ -797,6 +809,11 @@ public class Board extends JComponent {
                                             if(destination_x==i&&destination_y==j){
                                                 return true;
                                             }
+
+                                            if((i==x-1&&j==y-1)&&p.PIECETYPE.equals("PAWN")){
+                                                return false;
+                                            }
+
                                             if(p.PIECETYPE.equals("BISHOP")||p.PIECETYPE.equals("QUEEN")){
                                                 return false;
                                             }
@@ -1477,6 +1494,11 @@ public class Board extends JComponent {
                                         if(destination_x==i&&destination_y==j){
                                             return true;
                                         }
+
+                                        if((i==x-1&&j==y+1)&&p.PIECETYPE.equals("PAWN")){
+                                            return false;
+                                        }
+
                                         if(p.PIECETYPE.equals("BISHOP")||p.PIECETYPE.equals("QUEEN")){
                                             return false;
                                         }
@@ -1508,6 +1530,11 @@ public class Board extends JComponent {
                                         if(destination_x==i&&destination_y==j){
                                             return true;
                                         }
+
+                                        if((i==x+1&&j==y+1)&&p.PIECETYPE.equals("PAWN")){
+                                            return false;
+                                        }
+
                                         if(p.PIECETYPE.equals("BISHOP")||p.PIECETYPE.equals("QUEEN")){
                                             return false;
                                         }
