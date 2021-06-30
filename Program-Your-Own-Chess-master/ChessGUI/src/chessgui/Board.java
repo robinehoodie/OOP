@@ -1709,6 +1709,859 @@ public class Board extends JComponent {
     return true;
 }
 
+    public boolean canCastle(int destination_x, int destination_y){//Castling
+        int a,x,y,i;
+
+        boolean ret=true;
+        if(candidate_Piece.isWhite()){//king validation
+            for(a=0;a<9;a++){
+                if(Directions[a].equals("EAST")){
+                    for(x=candidate_Piece.getX()+1;x<=7;x++){
+                        Piece p = getPiece(x,destination_y);
+    
+                        if(p==null){
+                            continue;
+                        }
+    
+                        if(p!=null&&p.isWhite()){
+                            break;
+                        }
+    
+                        if(p!=null&&p.isBlack()){
+                            if(p.PIECETYPE.equals("ROOK")||p.PIECETYPE.equals("QUEEN")){
+                                return false;
+                            }
+                        }
+                    }                 
+                }
+                if(Directions[a].equals("WEST")){
+                    for(x=candidate_Piece.getX()-1;x>=0;x--){
+                        Piece p = getPiece(x,destination_y);
+    
+                        if(p==null){
+                            continue;
+                        }
+    
+                        if(p!=null&&p.isWhite()){
+                            break;
+                        }
+    
+                        if(p!=null&&p.isBlack()){
+                            if(p.PIECETYPE.equals("ROOK")||p.PIECETYPE.equals("QUEEN")){
+                                return false;
+                            }
+                        }
+                    }
+                }
+    
+                if(Directions[a].equals("NORTH")){
+                    for(y=candidate_Piece.getY()-1;y>=0;y--){
+                        Piece p = getPiece(candidate_Piece.getX(),y);
+    
+                        if(p==null){
+                            continue;
+                        }
+    
+                        if(p!=null){
+                            if(p.isWhite()){
+                                break;
+                            }
+    
+                            if(p.isBlack()){
+                                if(p.PIECETYPE.equals("ROOK")||p.PIECETYPE.equals("QUEEN")){
+                                    return false;
+                                }
+                            }
+                        } 
+                    }
+                }
+
+                if(Directions[a].equals("NORTHEAST")){
+                    for(x=candidate_Piece.getX()+1, y=candidate_Piece.getY()-1;x<=7&&y>=0;x++,y--){
+                        Piece p = getPiece(x,y);
+    
+                        if(p==null){
+                            continue;
+                        }
+    
+                        if(p!=null){
+                            if(p.isWhite()){
+                                break;
+                            }
+    
+                            if(p.isBlack()){
+                                if(p.PIECETYPE.equals("PAWN")||p.PIECETYPE.equals("BISHOP")||p.PIECETYPE.equals("QUEEN")){
+                                    return false;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                if(Directions[a].equals("NORTHWEST")){
+                    for(x=candidate_Piece.getX()-1, y=candidate_Piece.getY()-1;x>=0&&y>=0;x--,y--){
+                        Piece p = getPiece(x,y);
+    
+                        if(p==null){
+                            continue;
+                        }
+    
+                        if(p!=null){
+                            if(p.isWhite()){
+                                break;
+                            }
+    
+                            if(p.isBlack()){
+                                if(p.PIECETYPE.equals("PAWN")||p.PIECETYPE.equals("BISHOP")||p.PIECETYPE.equals("QUEEN")){
+                                    return false;
+                                }
+                            }
+                        }
+                    }
+                }
+                
+                if(Directions[a].equals("KNIGHT")){
+                    x = candidate_Piece.getX() + 2;
+                    y = candidate_Piece.getY() -1;
+                    Piece p = getPiece(x, y);
+
+                    if(p!=null){
+                        if(p.isBlack()&&p.PIECETYPE.equals("KNIGHT")){
+                            return false;
+                        }
+                    }
+
+                    x = candidate_Piece.getX() - 2;
+                    y = candidate_Piece.getY() -1;
+
+                    p = getPiece(x, y);
+
+                    if(p!=null){
+                        if(p.isBlack()&&p.PIECETYPE.equals("KNIGHT")){
+                            return false;
+                        }
+                    }
+
+                    x = candidate_Piece.getX() + 1;
+                    y = candidate_Piece.getY() -2;
+
+                    p = getPiece(x, y);
+
+                    if(p!=null){
+                        if(p.isBlack()&&p.PIECETYPE.equals("KNIGHT")){
+                            return false;
+                        }
+                    }
+
+                    x = candidate_Piece.getX() - 1;
+                    y = candidate_Piece.getY() -2;
+
+                    p = getPiece(x, y);
+
+                    if(p!=null){
+                        if(p.isBlack()&&p.PIECETYPE.equals("KNIGHT")){
+                            return false;
+                        }
+                    }
+                }
+            }
+        }else{//black king validation
+            for(a=0;a<9;a++){
+                if(Directions[a].equals("EAST")){
+                    for(x=candidate_Piece.getX()-1;x>=0;x--){
+                        Piece p = getPiece(x,destination_y);
+    
+                        if(p==null){
+                            continue;
+                        }
+    
+                        if(p!=null&&p.isBlack()){
+                            break;
+                        }
+    
+                        if(p!=null&&p.isWhite()){
+                            if(p.PIECETYPE.equals("ROOK")||p.PIECETYPE.equals("QUEEN")){
+                                return false;
+                            }
+                        }
+                    }                 
+                }
+        
+                if(Directions[a].equals("WEST")){
+                    for(x=candidate_Piece.getX()+1;x<=7;x++){
+                        Piece p = getPiece(x,destination_y);
+    
+                        if(p==null){
+                            continue;
+                        }
+    
+                        if(p!=null&&p.isBlack()){
+                            break;
+                        }
+    
+                        if(p!=null&&p.isWhite()){
+                            if(p.PIECETYPE.equals("ROOK")||p.PIECETYPE.equals("QUEEN")){
+                                return false;
+                            }
+                        }
+                    }
+                }
+    
+                if(Directions[a].equals("NORTH")){
+                    for(y=candidate_Piece.getY()+1;y<=7;y++){
+                        Piece p = getPiece(candidate_Piece.getX(),y);
+    
+                        if(p==null){
+                            continue;
+                        }
+    
+                        if(p!=null){
+                            if(p.isBlack()){
+                                break;
+                            }
+    
+                            if(p.isWhite()){
+                                if(p.PIECETYPE.equals("ROOK")||p.PIECETYPE.equals("QUEEN")){
+                                    return false;
+                                }
+                            }
+                        } 
+                    }
+                }
+
+                if(Directions[a].equals("NORTHEAST")){
+                    for(x=candidate_Piece.getX()-1, y=candidate_Piece.getY()+1;x>=0&&y<=7;x--,y++){
+                        Piece p = getPiece(x,y);
+    
+                        if(p==null){
+                            continue;
+                        }
+    
+                        if(p!=null){
+                            if(p.isBlack()){
+                                break;
+                            }
+    
+                            if(p.isWhite()){
+                                if(p.PIECETYPE.equals("PAWN")||p.PIECETYPE.equals("BISHOP")||p.PIECETYPE.equals("QUEEN")){
+                                    return false;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                if(Directions[a].equals("NORTHWEST")){
+                    for(x=candidate_Piece.getX()+1, y=candidate_Piece.getY()+1;x<=7&&y<=7;x++,y++){
+                        Piece p = getPiece(x,y);
+    
+                        if(p==null){
+                            continue;
+                        }
+    
+                        if(p!=null){
+                            if(p.isBlack()){
+                                break;
+                            }
+    
+                            if(p.isWhite()){
+                                if(p.PIECETYPE.equals("PAWN")||p.PIECETYPE.equals("BISHOP")||p.PIECETYPE.equals("QUEEN")){
+                                    return false;
+                                }
+                            }
+                        }
+                    }
+                }
+                
+                if(Directions[a].equals("KNIGHT")){
+                    x = candidate_Piece.getX() + 2;
+                    y = candidate_Piece.getY() +1;
+                    Piece p = getPiece(x, y);
+
+                    if(p!=null){
+                        if(p.isWhite()&&p.PIECETYPE.equals("KNIGHT")){
+                            return false;
+                        }
+                    }
+
+                    x = candidate_Piece.getX() - 2;
+                    y = candidate_Piece.getY() +1;
+
+                    p = getPiece(x, y);
+
+                    if(p!=null){
+                        if(p.isWhite()&&p.PIECETYPE.equals("KNIGHT")){
+                            return false;
+                        }
+                    }
+
+                    x = candidate_Piece.getX() + 1;
+                    y = candidate_Piece.getY() +2;
+
+                    p = getPiece(x, y);
+
+                    if(p!=null){
+                        if(p.isWhite()&&p.PIECETYPE.equals("KNIGHT")){
+                            return false;
+                        }
+                    }
+
+                    x = candidate_Piece.getX() - 1;
+                    y = candidate_Piece.getY() +2;
+
+                    p = getPiece(x, y);
+
+                    if(p!=null){
+                        if(p.isWhite()&&p.PIECETYPE.equals("KNIGHT")){
+                            return false;
+                        }
+                    }
+                }
+            }
+        }
+
+        if(destination_x==6){//kingside castle
+            if(candidate_Piece.isWhite()){
+                for(i=5;i<7;i++){
+                    for(a=0;a<9;a++){
+                        if(Directions[a].equals("NORTH")){
+                            for(y=destination_y-1;y>=0;y--){
+                                Piece p = getPiece(i, y);
+
+                                if(p==null){
+                                    continue;
+                                }
+
+                                if(p!=null){
+                                    if(p.isWhite()){
+                                        break;
+                                    }
+
+                                    if(p.isBlack()){
+                                        if(p.PIECETYPE.equals("ROOK")||(p.PIECETYPE.equals("QUEEN"))){
+                                            return false;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        if(Directions[a].equals("NORTHEAST")){
+                            for(x=i+1,y=destination_y-1;x<=7&&y>=0;x++,y--){
+                                Piece p = getPiece(x, y);
+
+                                if(p==null){
+                                    continue;
+                                }
+
+                                if(p!=null){
+                                    if(p.isWhite()){
+                                        break;
+                                    }
+
+                                    if(p.isBlack()){
+                                        if(p.PIECETYPE.equals("PAWN")||p.PIECETYPE.equals("BISHOP")||(p.PIECETYPE.equals("QUEEN"))){
+                                            return false;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        if(Directions[a].equals("NORTHWEST")){
+                            for(x=i-1,y=destination_y-1;x>=0&&y>=0;x--,y--){
+                                Piece p = getPiece(x, y);
+
+                                if(p==null){
+                                    continue;
+                                }
+
+                                if(p!=null){
+                                    if(p.isWhite()){
+                                        break;
+                                    }
+
+                                    if(p.isBlack()){
+                                        if(p.PIECETYPE.equals("PAWN")||p.PIECETYPE.equals("BISHOP")||(p.PIECETYPE.equals("QUEEN"))){
+                                            return false;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        if(Directions[a].equals("KNIGHT")){
+                            Piece p;
+                            x = i + 2;
+                            y = destination_y - 1;
+
+                            if((x<=7||x>=0)&&(y<=7||y>=7)){
+                                p = getPiece(x, y);
+                            }else{
+                                p = null;
+                            }
+        
+                            if(p!=null){
+                                if(p.isBlack()&&p.PIECETYPE.equals("KNIGHT")){
+                                    return false;
+                                }
+                            }
+        
+                            x = i - 2;
+                            y = destination_y - 1;
+        
+                            if((x<=7||x>=0)&&(y<=7||y>=7)){
+                                p = getPiece(x, y);
+                            }else{
+                                p = null;
+                            }
+        
+                            if(p!=null){
+                                if(p.isBlack()&&p.PIECETYPE.equals("KNIGHT")){
+                                    return false;
+                                }
+                            }
+        
+                            x = i + 1;
+                            y = destination_y - 2;
+        
+                            if((x<=7||x>=0)&&(y<=7||y>=7)){
+                                p = getPiece(x, y);
+                            }else{
+                                p = null;
+                            }
+        
+                            if(p!=null){
+                                if(p.isBlack()&&p.PIECETYPE.equals("KNIGHT")){
+                                    return false;
+                                }
+                            }
+        
+                            x = i - 1;
+                            y = destination_y - 2;
+                            
+                            if((x<=7||x>=0)&&(y<=7||y>=7)){
+                                p = getPiece(x, y);
+                            }else{
+                                p = null;
+                            }
+        
+                            if(p!=null){
+                                if(p.isBlack()&&p.PIECETYPE.equals("KNIGHT")){
+                                    return false;
+                                }
+                            }                          
+                        }
+                    }
+                }
+                
+            }else{
+                for(i=5;i<7;i++){
+                    for(a=0;a<9;a++){
+                        if(Directions[a].equals("NORTH")){
+                            for(y=destination_y+1;y<=7;y++){
+                                Piece p = getPiece(i, y);
+
+                                if(p==null){
+                                    continue;
+                                }
+
+                                if(p!=null){
+                                    if(p.isBlack()){
+                                        break;
+                                    }
+
+                                    if(p.isWhite()){
+                                        if(p.PIECETYPE.equals("ROOK")||(p.PIECETYPE.equals("QUEEN"))){
+                                            return false;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        if(Directions[a].equals("NORTHEAST")){
+                            for(x=i-1,y=destination_y+1;x>=0&&y<=7;x--,y++){
+                                Piece p = getPiece(x, y);
+
+                                if(p==null){
+                                    continue;
+                                }
+
+                                if(p!=null){
+                                    if(p.isBlack()){
+                                        break;
+                                    }
+
+                                    if(p.isWhite()){
+                                        if(p.PIECETYPE.equals("PAWN")||p.PIECETYPE.equals("BISHOP")||(p.PIECETYPE.equals("QUEEN"))){
+                                            return false;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        if(Directions[a].equals("NORTHWEST")){
+                            for(x=i+1,y=destination_y+1;x<=7&&y<=7;x++,y++){
+                                Piece p = getPiece(x, y);
+
+                                if(p==null){
+                                    continue;
+                                }
+
+                                if(p!=null){
+                                    if(p.isBlack()){
+                                        break;
+                                    }
+
+                                    if(p.isWhite()){
+                                        if(p.PIECETYPE.equals("PAWN")||p.PIECETYPE.equals("BISHOP")||(p.PIECETYPE.equals("QUEEN"))){
+                                            return false;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        if(Directions[a].equals("KNIGHT")){
+                            Piece p;
+                            x = i + 2;
+                            y = destination_y + 1;
+
+                            if((x<=7||x>=0)&&(y<=7||y>=7)){
+                                p = getPiece(x, y);
+                            }else{
+                                p = null;
+                            }
+        
+                            if(p!=null){
+                                if(p.isWhite()&&p.PIECETYPE.equals("KNIGHT")){
+                                    return false;
+                                }
+                            }
+        
+                            x = i - 2;
+                            y = destination_y + 1;
+        
+                            if((x<=7||x>=0)&&(y<=7||y>=7)){
+                                p = getPiece(x, y);
+                            }else{
+                                p = null;
+                            }
+        
+                            if(p!=null){
+                                if(p.isWhite()&&p.PIECETYPE.equals("KNIGHT")){
+                                    return false;
+                                }
+                            }
+        
+                            x = i + 1;
+                            y = destination_y + 2;
+        
+                            if((x<=7||x>=0)&&(y<=7||y>=7)){
+                                p = getPiece(x, y);
+                            }else{
+                                p = null;
+                            }
+        
+                            if(p!=null){
+                                if(p.isWhite()&&p.PIECETYPE.equals("KNIGHT")){
+                                    return false;
+                                }
+                            }
+        
+                            x = i - 1;
+                            y = destination_y + 2;
+                            
+                            if((x<=7||x>=0)&&(y<=7||y>=7)){
+                                p = getPiece(x, y);
+                            }else{
+                                p = null;
+                            }
+        
+                            if(p!=null){
+                                if(p.isWhite()&&p.PIECETYPE.equals("KNIGHT")){
+                                    return false;
+                                }
+                            }                          
+                        }
+                    }
+                }
+            }
+        }else if(destination_x==2){//queenside castle
+            if(candidate_Piece.isWhite()){
+                for(i=3;i>=2;i--){
+                    for(a=0;a<9;a++){
+                        if(Directions[a].equals("NORTH")){
+                            for(y=destination_y-1;y>=0;y--){
+                                Piece p = getPiece(i, y);
+
+                                if(p==null){
+                                    continue;
+                                }
+
+                                if(p!=null){
+                                    if(p.isWhite()){
+                                        break;
+                                    }
+
+                                    if(p.isBlack()){
+                                        if(p.PIECETYPE.equals("ROOK")||(p.PIECETYPE.equals("QUEEN"))){
+                                            return false;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        if(Directions[a].equals("NORTHEAST")){
+                            for(x=i+1,y=destination_y-1;x<=7&&y>=0;x++,y--){
+                                Piece p = getPiece(x, y);
+
+                                if(p==null){
+                                    continue;
+                                }
+
+                                if(p!=null){
+                                    if(p.isWhite()){
+                                        break;
+                                    }
+
+                                    if(p.isBlack()){
+                                        if(p.PIECETYPE.equals("PAWN")||p.PIECETYPE.equals("BISHOP")||(p.PIECETYPE.equals("QUEEN"))){
+                                            return false;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        if(Directions[a].equals("NORTHWEST")){
+                            for(x=i-1,y=destination_y-1;x>=0&&y>=0;x--,y--){
+                                Piece p = getPiece(x, y);
+
+                                if(p==null){
+                                    continue;
+                                }
+
+                                if(p!=null){
+                                    if(p.isWhite()){
+                                        break;
+                                    }
+
+                                    if(p.isBlack()){
+                                        if(p.PIECETYPE.equals("PAWN")||p.PIECETYPE.equals("BISHOP")||(p.PIECETYPE.equals("QUEEN"))){
+                                            return false;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        if(Directions[a].equals("KNIGHT")){
+                            Piece p;
+                            x = i + 2;
+                            y = destination_y - 1;
+
+                            if((x<=7||x>=0)&&(y<=7||y>=7)){
+                                p = getPiece(x, y);
+                            }else{
+                                p = null;
+                            }
+        
+                            if(p!=null){
+                                if(p.isBlack()&&p.PIECETYPE.equals("KNIGHT")){
+                                    return false;
+                                }
+                            }
+        
+                            x = i - 2;
+                            y = destination_y - 1;
+        
+                            if((x<=7||x>=0)&&(y<=7||y>=7)){
+                                p = getPiece(x, y);
+                            }else{
+                                p = null;
+                            }
+        
+                            if(p!=null){
+                                if(p.isBlack()&&p.PIECETYPE.equals("KNIGHT")){
+                                    return false;
+                                }
+                            }
+        
+                            x = i + 1;
+                            y = destination_y - 2;
+        
+                            if((x<=7||x>=0)&&(y<=7||y>=7)){
+                                p = getPiece(x, y);
+                            }else{
+                                p = null;
+                            }
+        
+                            if(p!=null){
+                                if(p.isBlack()&&p.PIECETYPE.equals("KNIGHT")){
+                                    return false;
+                                }
+                            }
+        
+                            x = i - 1;
+                            y = destination_y - 2;
+                            
+                            if((x<=7||x>=0)&&(y<=7||y>=7)){
+                                p = getPiece(x, y);
+                            }else{
+                                p = null;
+                            }
+        
+                            if(p!=null){
+                                if(p.isBlack()&&p.PIECETYPE.equals("KNIGHT")){
+                                    return false;
+                                }
+                            }                          
+                        }
+                    }
+                }
+
+            }else{
+                for(i=3;i>=2;i--){
+                    for(a=0;a<9;a++){
+                        if(Directions[a].equals("NORTH")){
+                            for(y=destination_y+1;y<=7;y++){
+                                Piece p = getPiece(i, y);
+
+                                if(p==null){
+                                    continue;
+                                }
+
+                                if(p!=null){
+                                    if(p.isBlack()){
+                                        break;
+                                    }
+
+                                    if(p.isWhite()){
+                                        if(p.PIECETYPE.equals("ROOK")||(p.PIECETYPE.equals("QUEEN"))){
+                                            return false;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        if(Directions[a].equals("NORTHEAST")){
+                            for(x=i-1,y=destination_y+1;x>=0&&y<=7;x--,y++){
+                                Piece p = getPiece(x, y);
+
+                                if(p==null){
+                                    continue;
+                                }
+
+                                if(p!=null){
+                                    if(p.isBlack()){
+                                        break;
+                                    }
+
+                                    if(p.isWhite()){
+                                        if(p.PIECETYPE.equals("PAWN")||p.PIECETYPE.equals("BISHOP")||(p.PIECETYPE.equals("QUEEN"))){
+                                            return false;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        if(Directions[a].equals("NORTHWEST")){
+                            for(x=i+1,y=destination_y+1;x<=7&&y<=7;x++,y++){
+                                Piece p = getPiece(x, y);
+
+                                if(p==null){
+                                    continue;
+                                }
+
+                                if(p!=null){
+                                    if(p.isBlack()){
+                                        break;
+                                    }
+
+                                    if(p.isWhite()){
+                                        if(p.PIECETYPE.equals("PAWN")||p.PIECETYPE.equals("BISHOP")||(p.PIECETYPE.equals("QUEEN"))){
+                                            return false;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        if(Directions[a].equals("KNIGHT")){
+                            Piece p;
+                            x = i + 2;
+                            y = destination_y + 1;
+
+                            if((x<=7||x>=0)&&(y<=7||y>=7)){
+                                p = getPiece(x, y);
+                            }else{
+                                p = null;
+                            }
+        
+                            if(p!=null){
+                                if(p.isWhite()&&p.PIECETYPE.equals("KNIGHT")){
+                                    return false;
+                                }
+                            }
+        
+                            x = i - 2;
+                            y = destination_y + 1;
+        
+                            if((x<=7||x>=0)&&(y<=7||y>=7)){
+                                p = getPiece(x, y);
+                            }else{
+                                p = null;
+                            }
+        
+                            if(p!=null){
+                                if(p.isWhite()&&p.PIECETYPE.equals("KNIGHT")){
+                                    return false;
+                                }
+                            }
+        
+                            x = i + 1;
+                            y = destination_y + 2;
+        
+                            if((x<=7||x>=0)&&(y<=7||y>=7)){
+                                p = getPiece(x, y);
+                            }else{
+                                p = null;
+                            }
+        
+                            if(p!=null){
+                                if(p.isWhite()&&p.PIECETYPE.equals("KNIGHT")){
+                                    return false;
+                                }
+                            }
+        
+                            x = i - 1;
+                            y = destination_y + 2;
+                            
+                            if((x<=7||x>=0)&&(y<=7||y>=7)){
+                                p = getPiece(x, y);
+                            }else{
+                                p = null;
+                            }
+        
+                            if(p!=null){
+                                if(p.isWhite()&&p.PIECETYPE.equals("KNIGHT")){
+                                    return false;
+                                }
+                            }                          
+                        }
+                    }
+                }
+            }
+        }
+        return ret;
+    }
+
     private void adjustShapePositions(double dx, double dy) {
 
         Static_Shapes.get(0).adjustPosition(dx, dy);
