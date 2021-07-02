@@ -10,30 +10,26 @@ public class Knight extends Piece {
     
     @Override
     public boolean canMove(int destination_x, int destination_y){
-        boolean ret=false;
-        
-        int x = this.getX();
-    	int y = this.getY();
     	
-    	int diagonal_y = Math.abs(destination_y - y);
-    	int diagonal_x = Math.abs(destination_x - x);
+    	int y=Math.abs(destination_y-this.getY());
+    	int x=Math.abs(destination_x-this.getX());
  
-        Piece p = board.getPiece(destination_x, destination_y);
-        if( p != null) {
-        	if(p.isWhite() && this.isWhite()) {
+        Piece possiblePiece=board.getPiece(destination_x, destination_y);
+        if(possiblePiece!=null) {
+        	if(possiblePiece.isWhite()&&this.isWhite()){
         		return false;
         	}
-        	else if(p.isBlack() && this.isBlack()) {
+        	else if(possiblePiece.isBlack()&&this.isBlack()){
         		return false;
         	}
         }
-        if(board.validation(destination_x, destination_y,"KNIGHT")){
-            if(((diagonal_x == 2 && diagonal_y == 1)||(diagonal_y == 2 && diagonal_x == 1))) {
+        if(board.validation(destination_x, destination_y, "KNIGHT")){
+            if(((x==2&&y==1)||(y==2&&x==1))) {
                 return true;
             }
         }else{
             return false; 
         }
-        return ret;
+        return false;
     }
 }
