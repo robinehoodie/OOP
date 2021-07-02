@@ -5,7 +5,6 @@ import chessgui.Board;
 public class Pawn extends Piece {
 
     private boolean has_moved;
-    
     public Pawn(int x, int y, boolean is_white, String file_path, Board board, String PIECETYPE, boolean pass){
         super(x,y,is_white,file_path, board, PIECETYPE, pass);
         has_moved = false;
@@ -22,27 +21,25 @@ public class Pawn extends Piece {
     @Override
     public boolean canMove(int destination_x, int destination_y){
         
-        boolean hasMoved = this.getHasMoved();
-        
     	int x = this.getX();
     	int y = this.getY();   
 
     	int distance_x = Math.abs(destination_x - x);    	
     	int distance_y = Math.abs(destination_y - y);
     	
-        Piece p = board.getPiece(destination_x, destination_y);
+        Piece possiblePiece = board.getPiece(destination_x, destination_y);
         
-        if( p != null) {
-        	if(p.isWhite() && this.isWhite()) {
+        if( possiblePiece != null) {
+        	if(possiblePiece.isWhite() && this.isWhite()) {
         		return false;
         	}
-        	else if(p.isBlack() && this.isBlack()) {
+        	else if(possiblePiece.isBlack() && this.isBlack()) {
         		return false;
         	}
         }
         if(board.validation(destination_x, destination_y,"PAWN")){
 			/* en passant */
-			if(p==null){
+			if(possiblePiece==null){
 				int passantX;
 				int passantY;
 				int captureDistance;
@@ -94,7 +91,7 @@ public class Pawn extends Piece {
 				if(this.isBlack()) {
 					return false;
 				}
-				if(p == null && distance_x == 1) {
+				if(possiblePiece == null && distance_x == 1) {
 					return false;
 				}
 				if(distance_x != 1) {
@@ -116,7 +113,7 @@ public class Pawn extends Piece {
 				if(this.isWhite()) {
 					return false;
 				}
-				if(p == null && distance_x == 1) {
+				if(possiblePiece == null && distance_x == 1) {
 					return false;
 				}
 				if(distance_x != 1) {
@@ -133,7 +130,7 @@ public class Pawn extends Piece {
 						this.pass=true;
 					}
 				}
-			}		
+			}	
 			return true; 
 		}else{
 			return false;
