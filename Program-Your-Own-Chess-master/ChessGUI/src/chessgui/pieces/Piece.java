@@ -12,8 +12,7 @@ public class Piece {
     public String PIECETYPE;
     public boolean pass;
     
-    public Piece(int x, int y, boolean is_white, String file_path, Board board, String PIECETYPE,boolean pass)
-    {
+    public Piece(int x, int y, boolean is_white, String file_path, Board board, String PIECETYPE,boolean pass){
         this.is_white = is_white;
         this.x = x;
         this.y = y;
@@ -24,48 +23,39 @@ public class Piece {
         this.pass=false; 
     }
     
-    public String getFilePath()
-    {
+    public String getFilePath(){
         return file_path;
     }
     
-    public void setFilePath(String path)
-    {
+    public void setFilePath(String path){
         this.file_path = path;
     }
     
-    public boolean isWhite()
-    {
+    public boolean isWhite(){
         return is_white;
     }
     
-    public boolean isBlack()
-    {
+    public boolean isBlack(){
         return !is_white;
     }
     
-    public void setX(int x)
-    {
+    public void setX(int x){
         this.x = x;
     }
     
-    public void setY(int y)
-    {
+    public void setY(int y){
         this.y = y;
     }
     
-    public int getX()
-    {
+    public int getX(){
         return x;
     }
     
-    public int getY()
-    {
+    public int getY(){
         return y;
     }
     
-    public boolean canMove(int destination_x, int destination_y)
-    {
+    public boolean canMove(int destination_x, int destination_y){
         return false;
     }
 }
