@@ -35,7 +35,6 @@ public class Board extends JComponent {
     private Integer[][] BoardGrid;
     private String board_file_path = "images" + File.separator + "board.png";
     private String active_square_file_path = "images" + File.separator + "active_square.png";
-    private String chosen_piece_for_promotion = "images" + File.separator + "choice.png";
 
     public void initGrid(Piece P,int row, int col){
         for (int i = 0; i < rows; i++){
@@ -97,7 +96,6 @@ public class Board extends JComponent {
         Piece_Graphics = new ArrayList();
         White_Pieces = new ArrayList();
         Black_Pieces = new ArrayList();
-        Promotion_Pieces = new ArrayList();
 
         Piece P=null;
 
@@ -185,8 +183,7 @@ public class Board extends JComponent {
                 candidate_Piece = clicked_piece;
             }else if (Active_Piece != null && Active_Piece.getX() == Clicked_Column && Active_Piece.getY() == Clicked_Row){
                 Active_Piece = null;
-            }else if (Active_Piece != null && Active_Piece.canMove(Clicked_Column, Clicked_Row) && ((is_whites_turn && Active_Piece.isWhite()) || (!is_whites_turn && Active_Piece.isBlack()))){///last else if
-                // if piece is there, remove it so we can be there
+            }else if (Active_Piece != null && Active_Piece.canMove(Clicked_Column, Clicked_Row) && ((is_whites_turn && Active_Piece.isWhite()) || (!is_whites_turn && Active_Piece.isBlack()))){
                 if (clicked_piece != null){
                     if (clicked_piece.isWhite()){
                         White_Pieces.remove(clicked_piece);
@@ -206,11 +203,10 @@ public class Board extends JComponent {
                         initGrid(Active_Piece,Clicked_Row,Clicked_Column);             
                     }                        
                 }
-                // do move
+
                 Active_Piece.setX(Clicked_Column);
                 Active_Piece.setY(Clicked_Row);
                 
-                // if piece is a pawn set has_moved to true
                 if (Active_Piece.getClass().equals(Pawn.class)){
                     Pawn castedPawn = (Pawn)(Active_Piece);
                     castedPawn.setHasMoved(true);
@@ -241,8 +237,6 @@ public class Board extends JComponent {
         @Override
         public void mouseWheelMoved(MouseWheelEvent e) {
         }	
-
-        
     };
     
     public boolean validation(int destination_x, int destination_y, String pieceType){
@@ -981,7 +975,7 @@ public class Board extends JComponent {
                     }
                 }
             }
-       }else{//BLACK BLACK BLACK BLACK BLACK BLACK BLACK BLACK BLACK BLACK BLACK BLACK BLACK BLACK BLACK BLACK BLACK BLACK BLACK BLACK BLACK BLACK BLACK BLACK BLACK BLACK BLACK BLACK BLACK BLACK 
+       }else{
         if(candidate_Piece.PIECETYPE.equals("KING")){
             for(a=0;a<9;a++){
                 if(Directions[a].equals("EAST")){
@@ -1342,7 +1336,7 @@ public class Board extends JComponent {
                                             break;
                                         }
                                         break;
-                                    }else{//if the piece is black
+                                    }else{
                                         if(destination_x==i&&destination_y==y){
                                             return true;
                                         }
@@ -1713,11 +1707,11 @@ public class Board extends JComponent {
     return true;
 }
 
-    public boolean canCastle(int destination_x, int destination_y){//Castling
+    public boolean canCastle(int destination_x, int destination_y){
         int a,x,y,i;
 
         boolean ret=true;
-        if(candidate_Piece.isWhite()){//king validation
+        if(candidate_Piece.isWhite()){
             for(a=0;a<9;a++){
                 if(Directions[a].equals("EAST")){
                     for(x=candidate_Piece.getX()+1;x<=7;x++){
@@ -1869,7 +1863,7 @@ public class Board extends JComponent {
                     }
                 }
             }
-        }else{//black king validation
+        }else{
             for(a=0;a<9;a++){
                 if(Directions[a].equals("EAST")){
                     for(x=candidate_Piece.getX()-1;x>=0;x--){
@@ -2024,7 +2018,7 @@ public class Board extends JComponent {
             }
         }
 
-        if(destination_x==6){//kingside castle
+        if(destination_x==6){
             if(candidate_Piece.isWhite()){
                 for(i=5;i<7;i++){
                     for(a=0;a<9;a++){
@@ -2293,7 +2287,7 @@ public class Board extends JComponent {
                     }
                 }
             }
-        }else if(destination_x==2){//queenside castle
+        }else if(destination_x==2){
             if(candidate_Piece.isWhite()){
                 for(i=3;i>=2;i--){
                     for(a=0;a<9;a++){
@@ -2624,7 +2618,7 @@ public class Board extends JComponent {
         @Override
         public void componentShown(ComponentEvent e) {
         }	
-    };//private ComponentAdapter componentAdapter = new ComponentAdapter()
+    };
 
     private KeyAdapter keyAdapter = new KeyAdapter() {
 
@@ -2640,7 +2634,7 @@ public class Board extends JComponent {
         public void keyTyped(KeyEvent e) {
         }	
     };
-}//////////////public class Board extends JComponent ***
+}
 
 interface DrawingShape {
     boolean contains(Graphics2D g2, double x, double y);
