@@ -28,17 +28,14 @@ public class Board extends JComponent {
 
     public Piece Active_Piece;
     public Piece candidate_Piece;
-
-    
+    public Piece enPassant;
     
     private final int rows = 8;
     private final int cols = 8;
     private Integer[][] BoardGrid;
     private String board_file_path = "images" + File.separator + "board.png";
     private String active_square_file_path = "images" + File.separator + "active_square.png";
-
-
-    public int choice;
+    private String chosen_piece_for_promotion = "images" + File.separator + "choice.png";
 
     public void initGrid(Piece P,int row, int col){
         for (int i = 0; i < rows; i++){
@@ -90,8 +87,7 @@ public class Board extends JComponent {
             }else{
                 Black_Pieces.add(new Queen(col,row,false,"Queen.png",this,"QUEEN",false));           
             }
-        }
-        
+        }    
     }
 
     public Board() {
@@ -162,17 +158,6 @@ public class Board extends JComponent {
         return null;
     }
 
-    public Piece getKing(Board board){
-        Piece z = board.getPiece(0, 0);
-        for(Piece p:White_Pieces){
-            if(p.PIECETYPE.equals("KING")){
-                return p;
-            }
-        }
-
-        return z;
-    }
-
     private MouseAdapter mouseAdapter = new MouseAdapter() {
 
         @Override
@@ -202,24 +187,12 @@ public class Board extends JComponent {
                 Active_Piece = null;
             }else if (Active_Piece != null && Active_Piece.canMove(Clicked_Column, Clicked_Row) && ((is_whites_turn && Active_Piece.isWhite()) || (!is_whites_turn && Active_Piece.isBlack()))){///last else if
                 // if piece is there, remove it so we can be there
-                Piece remove = clicked_piece;
                 if (clicked_piece != null){
                     if (clicked_piece.isWhite()){
                         White_Pieces.remove(clicked_piece);
                     }else{
                         Black_Pieces.remove(clicked_piece);
                     }
-
-                }
-
-                int two = Math.abs(6-Clicked_Row);
-                if(Active_Piece.PIECETYPE=="PAWN"&&two==2&&Active_Piece.isWhite()){
-                    Active_Piece.pass=true;
-                }
-
-
-                if(Active_Piece.isWhite()){
-
                 }
 
                 if(Active_Piece.isWhite()){
@@ -243,14 +216,19 @@ public class Board extends JComponent {
                     castedPawn.setHasMoved(true);
                 }
 
+                enPassant = null;
+                if(candidate_Piece!=null&&candidate_Piece.PIECETYPE.equals("PAWN")&&candidate_Piece.pass){
+                    enPassant = candidate_Piece;
+                }else{
+                    candidate_Piece.pass=false;
+                }
+
                 Active_Piece = null;
                 candidate_Piece = null;
                 turnCounter++;
             }
             drawBoard();
         }
-
-
 
         @Override
         public void mouseDragged(MouseEvent e) {		
@@ -266,8 +244,7 @@ public class Board extends JComponent {
 
         
     };
-
-
+    
     public boolean validation(int destination_x, int destination_y, String pieceType){
         int a,i,j,x,y;
         
