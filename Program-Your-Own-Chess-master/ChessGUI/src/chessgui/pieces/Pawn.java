@@ -25,13 +25,10 @@ public class Pawn extends Piece {
         boolean hasMoved = this.getHasMoved();
         
     	int x = this.getX();
-    	int y = this.getY();
-        
+    	int y = this.getY();   
 
     	int distance_x = Math.abs(destination_x - x);    	
     	int distance_y = Math.abs(destination_y - y);
-
-
     	
         Piece p = board.getPiece(destination_x, destination_y);
         
@@ -44,10 +41,35 @@ public class Pawn extends Piece {
         	}
         }
         if(board.validation(destination_x, destination_y,"PAWN")){
-			int	passantX = destination_x;
-			int passantY = destination_y-1;
+			/* en passant */
+			if(p==null){
+				int passantX;
+				int passantY;
+				int captureDistance;
 
-			Piece passing = board.getPiece(passantX, passantY);
+				captureDistance = Math.abs(destination_x-this.getX());
+
+				Piece enPassant;
+				if(this.isWhite()&&this.getY()==3){
+					passantX = (this.getX()>destination_x)?this.getX()-1:this.getX()+1;
+					passantY = destination_y+1;
+					enPassant = board.getPiece(passantX,passantY);
+					if(enPassant!=null&&enPassant.PIECETYPE.equals("PAWN")&&board.enPassant!=null&&captureDistance==1){
+						board.Black_Pieces.remove(enPassant);
+						return true;
+					}
+				}
+			
+				if(this.isBlack()&&this.getY()==4){
+					passantX = (this.getX()<destination_x)?this.getX()+1:this.getX()-1;
+					passantY = destination_y-1;
+					enPassant = board.getPiece(passantX,passantY);
+					if(enPassant!=null&&enPassant.PIECETYPE.equals("PAWN")&&board.enPassant!=null&&captureDistance==1){
+						board.White_Pieces.remove(enPassant);
+						return true;
+					}
+				}
+			}
 
 			String direction = "";
 			
@@ -84,6 +106,10 @@ public class Pawn extends Piece {
 					if(distance_y == 2 && firstMove != null) {
 						return false;
 					}
+
+					if(firstMove==null&&distance_y==2){
+						this.pass=true;
+					}
 				}
 			}
 			if("south".equals(direction)) {
@@ -102,8 +128,12 @@ public class Pawn extends Piece {
 					if(distance_y == 2 && firstMove != null) {
 						return false;
 					}
+
+					if(firstMove==null&&distance_y==2){
+						this.pass=true;
+					}
 				}
-			}     
+			}		
 			return true; 
 		}else{
 			return false;
