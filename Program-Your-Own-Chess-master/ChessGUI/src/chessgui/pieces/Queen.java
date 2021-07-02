@@ -1,7 +1,5 @@
 package chessgui.pieces;
 
-import javax.swing.plaf.synth.SynthToolBarUI;
-
 import chessgui.Board;
 
 public class Queen extends Piece {
@@ -16,8 +14,8 @@ public class Queen extends Piece {
             int x = this.getX();
             int y = this.getY();
 
-            int diagonal_y = Math.abs(destination_y - y);
-            int diagonal_x = Math.abs(destination_x - x);        
+            int length_Y = Math.abs(destination_y - y);
+            int length_X = Math.abs(destination_x - x);        
 
             Piece possiblePiece = board.getPiece(destination_x, destination_y);
             
@@ -30,13 +28,13 @@ public class Queen extends Piece {
                 }
             }
             
-            if((diagonal_x != diagonal_y) && (this.getX() != destination_x && this.getY() != destination_y)) {
+            if((length_X != length_Y) && (this.getX() != destination_x && this.getY() != destination_y)) {
                 return false;
             }
             
             if(board.validation(destination_x, destination_y,"QUEEN")){
 
-            int diagonal_length = diagonal_x;
+            int diagonal_length = length_X;
             
             String direction = "";
             

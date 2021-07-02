@@ -14,8 +14,8 @@ public class Bishop extends Piece {
     	int x = this.getX();
     	int y = this.getY();
     	
-    	int diagonal_y = Math.abs(destination_y - y);
-    	int diagonal_x = Math.abs(destination_x - x);        
+    	int length_Y = Math.abs(destination_y - y);
+    	int length_X = Math.abs(destination_x - x);        
         
         Piece possiblePiece = board.getPiece(destination_x, destination_y);
         
@@ -28,11 +28,11 @@ public class Bishop extends Piece {
             }
         }
         
-        if(diagonal_x != diagonal_y) {
+        if(length_X != length_Y) {
         	return false;
         }
         if(board.validation(destination_x, destination_y,"BISHOP")){      
-            int diagonal_length = diagonal_x;
+            int diagonal_length = length_X;
             
             String direction = "";
             
@@ -87,7 +87,6 @@ public class Bishop extends Piece {
             return true;
         }else{
             return false;
-        }
-        
+        }  
     }
 }
