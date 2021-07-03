@@ -28,6 +28,7 @@ public class Board extends JComponent {
     public Piece Active_Piece;
     public Piece candidate_Piece;
     public Piece enPassant;
+    public Piece Square_Piece;
     
     private final int rows = 8;
     private final int cols = 8;
@@ -82,31 +83,28 @@ public class Board extends JComponent {
             White_Pieces.add(new Pawn(6,6,true,"Pawn.png",this,"PAWN",false));
             White_Pieces.add(new Pawn(7,6,true,"Pawn.png",this,"PAWN",false));            
         }else{
-            if(P.isWhite()){
-                   
-       int button_pressed = JOptionPane.showOptionDialog(null, "Choose Piece" ,"Promotion",JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, option, option[0] );
-        if (button_pressed == 0){
-            White_Pieces.add(new Queen(col,row,true,"Queen.png",this,"QUEEN",false)); 
-        }else if(button_pressed == 1){
-            White_Pieces.add(new Rook(col,row,true,"Rook.png",this,"ROOK",false)); 
-        }else if(button_pressed == 2){
-            White_Pieces.add(new Bishop(col,row,true,"Bishop.png",this,"BISHOP",false)); 
-        }else if(button_pressed == 3){
-            White_Pieces.add(new Knight(col,row,true,"Knight.png",this,"KNIGHT",false)); 
-        }
-
+            if(P.isWhite()){                
+                int button_pressed = JOptionPane.showOptionDialog(null, "Choose Piece" ,"Promotion",JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, option, option[0] );
+                if (button_pressed == 0){
+                    White_Pieces.add(new Queen(col,row,true,"Queen.png",this,"QUEEN",false)); 
+                }else if(button_pressed == 1){
+                    White_Pieces.add(new Rook(col,row,true,"Rook.png",this,"ROOK",false)); 
+                }else if(button_pressed == 2){
+                    White_Pieces.add(new Bishop(col,row,true,"Bishop.png",this,"BISHOP",false)); 
+                }else if(button_pressed == 3){
+                    White_Pieces.add(new Knight(col,row,true,"Knight.png",this,"KNIGHT",false)); 
+                }
             }else{
-    int button_pressed = JOptionPane.showOptionDialog(null, "Choose Piece" ,"Promotion",JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, option, option[0] );
-        if (button_pressed == 0){
-            Black_Pieces.add(new Queen(col,row,false,"Queen.png",this,"QUEEN",false)); 
-        }else if(button_pressed == 1){
-            Black_Pieces.add(new Rook(col,row,false,"Rook.png",this,"ROOK",false)); 
-        }else if(button_pressed == 2){
-            Black_Pieces.add(new Bishop(col,row,false,"Bishop.png",this,"BISHOP",false)); 
-        }else if(button_pressed == 3){
-            Black_Pieces.add(new Knight(col,row,false,"Knight.png",this,"KNIGHT",false)); 
-        }
-               
+                int button_pressed = JOptionPane.showOptionDialog(null, "Choose Piece" ,"Promotion",JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, option, option[0] );
+                if (button_pressed == 0){
+                    Black_Pieces.add(new Queen(col,row,false,"Queen.png",this,"QUEEN",false)); 
+                }else if(button_pressed == 1){
+                    Black_Pieces.add(new Rook(col,row,false,"Rook.png",this,"ROOK",false)); 
+                }else if(button_pressed == 2){
+                    Black_Pieces.add(new Bishop(col,row,false,"Bishop.png",this,"BISHOP",false)); 
+                }else if(button_pressed == 3){
+                    Black_Pieces.add(new Knight(col,row,false,"Knight.png",this,"KNIGHT",false)); 
+                }
             }
         }    
     }
@@ -146,6 +144,7 @@ public class Board extends JComponent {
         Image board = loadImage(board_file_path);
         Static_Shapes.add(new DrawingImage(board, new Rectangle2D.Double(0, 0, board.getWidth(null), board.getHeight(null))));
         if (Active_Piece != null){
+            possibleMoves();
             Image active_square = loadImage("images" + File.separator + "active_square.png");
             Static_Shapes.add(new DrawingImage(active_square, new Rectangle2D.Double(Square_Width*Active_Piece.getX(),Square_Width*Active_Piece.getY(), active_square.getWidth(null), active_square.getHeight(null))));
         }
@@ -204,6 +203,7 @@ public class Board extends JComponent {
             if (Active_Piece == null && clicked_piece != null && ((is_whites_turn && clicked_piece.isWhite()) || (!is_whites_turn && clicked_piece.isBlack()))){
                 Active_Piece = clicked_piece;
                 candidate_Piece = clicked_piece;
+                Square_Piece = clicked_piece;
             }else if (Active_Piece != null && Active_Piece.getX() == Clicked_Column && Active_Piece.getY() == Clicked_Row){
                 Active_Piece = null;
             }else if (Active_Piece != null && Active_Piece.canMove(Clicked_Column, Clicked_Row) && ((is_whites_turn && Active_Piece.isWhite()) || (!is_whites_turn && Active_Piece.isBlack()))){
@@ -262,6 +262,1064 @@ public class Board extends JComponent {
         }	
     };
     
+    public void possibleMoves(){
+        Image active_square = loadImage("images" + File.separator + "active_square.png");
+        // Static_Shapes.add(new DrawingImage(active_square, new Rectangle2D.Double(Square_Width*Active_Piece.getX(),Square_Width*Active_Piece.getY(), active_square.getWidth(null), active_square.getHeight(null))));   
+        if(Square_Piece.PIECETYPE.equals("QUEEN")){
+            if(Square_Piece.isWhite()){
+                for(int i=Square_Piece.getY()-1;i>=0;i--){//north
+                    Piece p = getPiece(Square_Piece.getX(), i);
+                    if(p==null){
+                        Static_Shapes.add(new DrawingImage(active_square, new Rectangle2D.Double(Square_Width*Square_Piece.getX(),Square_Width*i, active_square.getWidth(null), active_square.getHeight(null))));
+                    }
+                    if(p!=null){
+                        if(p.isBlack()){
+                            Static_Shapes.add(new DrawingImage(active_square, new Rectangle2D.Double(Square_Width*Square_Piece.getX(),Square_Width*i, active_square.getWidth(null), active_square.getHeight(null))));
+                            break;             
+                        }
+                       if(p.isWhite()){
+                           break;
+                       }  
+                    }
+                }
+                for(int i=Square_Piece.getY()+1;i<=70;i++){//south
+                    Piece p = getPiece(Square_Piece.getX(), i);
+                    if(p==null){
+                        Static_Shapes.add(new DrawingImage(active_square, new Rectangle2D.Double(Square_Width*Square_Piece.getX(),Square_Width*i, active_square.getWidth(null), active_square.getHeight(null))));
+                    }
+                    if(p!=null){
+                        if(p.isBlack()){
+                            Static_Shapes.add(new DrawingImage(active_square, new Rectangle2D.Double(Square_Width*Square_Piece.getX(),Square_Width*i, active_square.getWidth(null), active_square.getHeight(null))));
+                            break;     
+                        }
+                       if(p.isWhite()){
+                           break;
+                       }
+                    }
+                }
+                for(int i=Square_Piece.getX()+1;i<=7;i++){//east
+                    Piece p = getPiece(i, Square_Piece.getY());
+                    if(p==null){
+                        Static_Shapes.add(new DrawingImage(active_square, new Rectangle2D.Double(Square_Width*i,Square_Width*Square_Piece.getY(), active_square.getWidth(null), active_square.getHeight(null))));
+                    }
+                    if(p!=null){
+                        if(p.isBlack()){
+                            Static_Shapes.add(new DrawingImage(active_square, new Rectangle2D.Double(Square_Width*i,Square_Width*Square_Piece.getY(), active_square.getWidth(null), active_square.getHeight(null))));
+                            break;              
+                        }
+                       if(p.isWhite()){
+                           break;
+                       }
+                    }
+                }
+                for(int i=Square_Piece.getX()-1;i>=0;i--){//west
+                    Piece p = getPiece(i, Square_Piece.getY());
+                    if(p==null){
+                        Static_Shapes.add(new DrawingImage(active_square, new Rectangle2D.Double(Square_Width*i,Square_Width*Square_Piece.getY(), active_square.getWidth(null), active_square.getHeight(null))));
+                    }
+                    if(p!=null){
+                        if(p.isBlack()){
+                            Static_Shapes.add(new DrawingImage(active_square, new Rectangle2D.Double(Square_Width*i,Square_Width*Square_Piece.getY(), active_square.getWidth(null), active_square.getHeight(null))));
+                            break;          
+                        }
+                       if(p.isWhite()){
+                           break;
+                       }
+                    }
+                }
+                for(int i=Square_Piece.getX()+1, j=Square_Piece.getY()-1;i<=7&&j>=0;i++,j--){//northeast
+                    Piece p = getPiece(i, j);
+                    if(p==null){
+                        Static_Shapes.add(new DrawingImage(active_square, new Rectangle2D.Double(Square_Width*i,Square_Width*j, active_square.getWidth(null), active_square.getHeight(null))));
+                    }
+                    if(p!=null){
+                        if(p.isBlack()){
+                            Static_Shapes.add(new DrawingImage(active_square, new Rectangle2D.Double(Square_Width*i,Square_Width*j, active_square.getWidth(null), active_square.getHeight(null))));
+                            break;       
+                        }
+                       if(p.isWhite()){
+                           break;
+                       }
+                    }
+                }
+                for(int i=Square_Piece.getX()+1, j=Square_Piece.getY()+1;i<=7&&j<=7;i++,j++){//southeast
+                    Piece p = getPiece(i, j);
+                    if(p==null){
+                        Static_Shapes.add(new DrawingImage(active_square, new Rectangle2D.Double(Square_Width*i,Square_Width*j, active_square.getWidth(null), active_square.getHeight(null))));
+                    }
+                    if(p!=null){
+                        if(p.isBlack()){
+                            Static_Shapes.add(new DrawingImage(active_square, new Rectangle2D.Double(Square_Width*i,Square_Width*j, active_square.getWidth(null), active_square.getHeight(null))));
+                            break;      
+                        }
+                       if(p.isWhite()){
+                           break;
+                       }
+                    }
+                }
+                for(int i=Square_Piece.getX()-1, j=Square_Piece.getY()-1;i>=0&&j>=0;i--,j--){//northwest
+                    Piece p = getPiece(i, j);
+                    if(p==null){
+                        Static_Shapes.add(new DrawingImage(active_square, new Rectangle2D.Double(Square_Width*i,Square_Width*j, active_square.getWidth(null), active_square.getHeight(null))));
+                    }
+                    if(p!=null){
+                        if(p.isBlack()){
+                            Static_Shapes.add(new DrawingImage(active_square, new Rectangle2D.Double(Square_Width*i,Square_Width*j, active_square.getWidth(null), active_square.getHeight(null))));
+                            break;          
+                        }
+                       if(p.isWhite()){
+                           break;
+                       }
+                    }
+                }
+                for(int i=Square_Piece.getX()-1, j=Square_Piece.getY()+1;i>=0&&j<=7;i--,j++){//southwest
+                    Piece p = getPiece(i, j);
+                    if(p==null){
+                        Static_Shapes.add(new DrawingImage(active_square, new Rectangle2D.Double(Square_Width*i,Square_Width*j, active_square.getWidth(null), active_square.getHeight(null))));
+                    }
+                    if(p!=null){
+                        if(p.isBlack()){
+                            Static_Shapes.add(new DrawingImage(active_square, new Rectangle2D.Double(Square_Width*i,Square_Width*j, active_square.getWidth(null), active_square.getHeight(null))));
+                            break;           
+                        }
+                       if(p.isWhite()){
+                           break;
+                       }
+                    }
+                }
+            }else{//black queen
+                for(int i=Square_Piece.getY()-1;i>=0;i--){//north
+                    Piece p = getPiece(Square_Piece.getX(), i);
+                    if(p==null){
+                        Static_Shapes.add(new DrawingImage(active_square, new Rectangle2D.Double(Square_Width*Square_Piece.getX(),Square_Width*i, active_square.getWidth(null), active_square.getHeight(null))));
+                    }
+                    if(p!=null){
+                        if(p.isWhite()){
+                            Static_Shapes.add(new DrawingImage(active_square, new Rectangle2D.Double(Square_Width*Square_Piece.getX(),Square_Width*i, active_square.getWidth(null), active_square.getHeight(null))));
+                            break;         
+                        }
+                       if(p.isBlack()){
+                           break;
+                       }
+                    }
+                }
+                for(int i=Square_Piece.getY()+1;i<=70;i++){//south
+                    Piece p = getPiece(Square_Piece.getX(), i);
+                    if(p==null){
+                        Static_Shapes.add(new DrawingImage(active_square, new Rectangle2D.Double(Square_Width*Square_Piece.getX(),Square_Width*i, active_square.getWidth(null), active_square.getHeight(null))));
+                    }
+                    if(p!=null){
+                        if(p.isWhite()){
+                            Static_Shapes.add(new DrawingImage(active_square, new Rectangle2D.Double(Square_Width*Square_Piece.getX(),Square_Width*i, active_square.getWidth(null), active_square.getHeight(null))));
+                            break;          
+                        }
+                       if(p.isBlack()){
+                           break;
+                       }
+                    }
+                }
+                for(int i=Square_Piece.getX()+1;i<=7;i++){//east
+                    Piece p = getPiece(i, Square_Piece.getY());
+                    if(p==null){
+                        Static_Shapes.add(new DrawingImage(active_square, new Rectangle2D.Double(Square_Width*i,Square_Width*Square_Piece.getY(), active_square.getWidth(null), active_square.getHeight(null))));
+                    }
+                    if(p!=null){
+                        if(p.isWhite()){
+                            Static_Shapes.add(new DrawingImage(active_square, new Rectangle2D.Double(Square_Width*i,Square_Width*Square_Piece.getY(), active_square.getWidth(null), active_square.getHeight(null))));
+                            break;            
+                        }
+                       if(p.isBlack()){
+                           break;
+                       }
+                    }
+                }
+                for(int i=Square_Piece.getX()-1;i>=0;i--){//west
+                    Piece p = getPiece(i, Square_Piece.getY());
+                    if(p==null){
+                        Static_Shapes.add(new DrawingImage(active_square, new Rectangle2D.Double(Square_Width*i,Square_Width*Square_Piece.getY(), active_square.getWidth(null), active_square.getHeight(null))));
+                    }
+                    if(p!=null){
+                        if(p.isWhite()){
+                            Static_Shapes.add(new DrawingImage(active_square, new Rectangle2D.Double(Square_Width*i,Square_Width*Square_Piece.getY(), active_square.getWidth(null), active_square.getHeight(null))));
+                            break;                   
+                        }
+                       if(p.isBlack()){
+                           break;
+                       }
+                    }
+                }
+                for(int i=Square_Piece.getX()+1, j=Square_Piece.getY()-1;i<=7&&j>=0;i++,j--){//northeast
+                    Piece p = getPiece(i, j);
+                    if(p==null){
+                        Static_Shapes.add(new DrawingImage(active_square, new Rectangle2D.Double(Square_Width*i,Square_Width*j, active_square.getWidth(null), active_square.getHeight(null))));
+                    }
+                    if(p!=null){
+                        if(p.isWhite()){
+                            Static_Shapes.add(new DrawingImage(active_square, new Rectangle2D.Double(Square_Width*i,Square_Width*j, active_square.getWidth(null), active_square.getHeight(null))));
+                            break;        
+                        }
+                       if(p.isBlack()){
+                           break;
+                       }
+                    }
+                }
+                for(int i=Square_Piece.getX()+1, j=Square_Piece.getY()+1;i<=7&&j<=7;i++,j++){//southeast
+                    Piece p = getPiece(i, j);
+                    if(p==null){
+                        Static_Shapes.add(new DrawingImage(active_square, new Rectangle2D.Double(Square_Width*i,Square_Width*j, active_square.getWidth(null), active_square.getHeight(null))));
+                    }
+                    if(p!=null){
+                        if(p.isWhite()){
+                            Static_Shapes.add(new DrawingImage(active_square, new Rectangle2D.Double(Square_Width*i,Square_Width*j, active_square.getWidth(null), active_square.getHeight(null))));
+                            break;                     
+                        }
+                       if(p.isBlack()){
+                           break;
+                       }
+                    }
+                }
+                for(int i=Square_Piece.getX()-1, j=Square_Piece.getY()-1;i>=0&&j>=0;i--,j--){//northwest
+                    Piece p = getPiece(i, j);
+                    if(p==null){
+                        Static_Shapes.add(new DrawingImage(active_square, new Rectangle2D.Double(Square_Width*i,Square_Width*j, active_square.getWidth(null), active_square.getHeight(null))));
+                    }
+                    if(p!=null){
+                        if(p.isWhite()){
+                            Static_Shapes.add(new DrawingImage(active_square, new Rectangle2D.Double(Square_Width*i,Square_Width*j, active_square.getWidth(null), active_square.getHeight(null))));
+                            break;          
+                        }
+                       if(p.isBlack()){
+                           break;
+                       }
+                    }
+                }
+                for(int i=Square_Piece.getX()-1, j=Square_Piece.getY()+1;i>=0&&j<=7;i--,j++){//southwest
+                    Piece p = getPiece(i, j);
+                    if(p==null){
+                        Static_Shapes.add(new DrawingImage(active_square, new Rectangle2D.Double(Square_Width*i,Square_Width*j, active_square.getWidth(null), active_square.getHeight(null))));
+                    }
+                    if(p!=null){
+                        if(p.isWhite()){
+                            Static_Shapes.add(new DrawingImage(active_square, new Rectangle2D.Double(Square_Width*i,Square_Width*j, active_square.getWidth(null), active_square.getHeight(null))));
+                            break;           
+                        }
+                       if(p.isBlack()){
+                           break;
+                       }
+                    }
+                }                
+            }
+        }
+        if(Square_Piece.PIECETYPE.equals("ROOK")){
+            if(Square_Piece.isWhite()){
+                for(int i=Square_Piece.getY()-1;i>=0;i--){//north
+                    Piece p = getPiece(Square_Piece.getX(), i);
+                    if(p==null){
+                        Static_Shapes.add(new DrawingImage(active_square, new Rectangle2D.Double(Square_Width*Square_Piece.getX(),Square_Width*i, active_square.getWidth(null), active_square.getHeight(null))));
+                    }
+                    if(p!=null){
+                        if(p.isBlack()){
+                            Static_Shapes.add(new DrawingImage(active_square, new Rectangle2D.Double(Square_Width*Square_Piece.getX(),Square_Width*i, active_square.getWidth(null), active_square.getHeight(null))));
+                            break;         
+                        }
+                       if(p.isWhite()){
+                           break;
+                       }
+                    }
+                }
+                for(int i=Square_Piece.getY()+1;i<=70;i++){//south
+                    Piece p = getPiece(Square_Piece.getX(), i);
+                    if(p==null){
+                        Static_Shapes.add(new DrawingImage(active_square, new Rectangle2D.Double(Square_Width*Square_Piece.getX(),Square_Width*i, active_square.getWidth(null), active_square.getHeight(null))));
+                    }
+                    if(p!=null){
+                        if(p.isBlack()){
+                            Static_Shapes.add(new DrawingImage(active_square, new Rectangle2D.Double(Square_Width*Square_Piece.getX(),Square_Width*i, active_square.getWidth(null), active_square.getHeight(null))));
+                            break;              
+                        }
+                       if(p.isWhite()){
+                           break;
+                       }
+                    }
+                }
+                for(int i=Square_Piece.getX()+1;i<=7;i++){//east
+                    Piece p = getPiece(i, Square_Piece.getY());
+                    if(p==null){
+                        Static_Shapes.add(new DrawingImage(active_square, new Rectangle2D.Double(Square_Width*i,Square_Width*Square_Piece.getY(), active_square.getWidth(null), active_square.getHeight(null))));
+                    }
+                    if(p!=null){
+                        if(p.isBlack()){
+                            Static_Shapes.add(new DrawingImage(active_square, new Rectangle2D.Double(Square_Width*i,Square_Width*Square_Piece.getY(), active_square.getWidth(null), active_square.getHeight(null))));
+                            break;                     
+                        }
+                       if(p.isWhite()){
+                           break;
+                       }
+                    }
+                }
+                for(int i=Square_Piece.getX()-1;i>=0;i--){//west
+                    Piece p = getPiece(i, Square_Piece.getY());
+                    if(p==null){
+                        Static_Shapes.add(new DrawingImage(active_square, new Rectangle2D.Double(Square_Width*i,Square_Width*Square_Piece.getY(), active_square.getWidth(null), active_square.getHeight(null))));
+                    }
+                    if(p!=null){
+                        if(p.isBlack()){
+                            Static_Shapes.add(new DrawingImage(active_square, new Rectangle2D.Double(Square_Width*i,Square_Width*Square_Piece.getY(), active_square.getWidth(null), active_square.getHeight(null))));
+                            break;           
+                        }
+                       if(p.isWhite()){
+                           break;
+                       }
+                    }
+                }
+            }else{//black rook
+                for(int i=Square_Piece.getY()-1;i>=0;i--){//north
+                    Piece p = getPiece(Square_Piece.getX(), i);
+                    if(p==null){
+                        Static_Shapes.add(new DrawingImage(active_square, new Rectangle2D.Double(Square_Width*Square_Piece.getX(),Square_Width*i, active_square.getWidth(null), active_square.getHeight(null))));
+                    }
+                    if(p!=null){
+                        if(p.isWhite()){
+                            Static_Shapes.add(new DrawingImage(active_square, new Rectangle2D.Double(Square_Width*Square_Piece.getX(),Square_Width*i, active_square.getWidth(null), active_square.getHeight(null))));
+                            break;           
+                        }
+                       if(p.isBlack()){
+                           break;
+                       }
+                    }
+                }
+                for(int i=Square_Piece.getY()+1;i<=70;i++){//south
+                    Piece p = getPiece(Square_Piece.getX(), i);
+                    if(p==null){
+                        Static_Shapes.add(new DrawingImage(active_square, new Rectangle2D.Double(Square_Width*Square_Piece.getX(),Square_Width*i, active_square.getWidth(null), active_square.getHeight(null))));
+                    }
+                    if(p!=null){
+                        if(p.isWhite()){
+                            Static_Shapes.add(new DrawingImage(active_square, new Rectangle2D.Double(Square_Width*Square_Piece.getX(),Square_Width*i, active_square.getWidth(null), active_square.getHeight(null))));
+                            break;       
+                        }
+                       if(p.isBlack()){
+                           break;
+                       }
+                    }
+                }
+                for(int i=Square_Piece.getX()+1;i<=7;i++){//east
+                    Piece p = getPiece(i, Square_Piece.getY());
+                    if(p==null){
+                        Static_Shapes.add(new DrawingImage(active_square, new Rectangle2D.Double(Square_Width*i,Square_Width*Square_Piece.getY(), active_square.getWidth(null), active_square.getHeight(null))));
+                    }
+                    if(p!=null){
+                        if(p.isWhite()){
+                            Static_Shapes.add(new DrawingImage(active_square, new Rectangle2D.Double(Square_Width*i,Square_Width*Square_Piece.getY(), active_square.getWidth(null), active_square.getHeight(null))));
+                            break;       
+                        }
+                       if(p.isBlack()){
+                           break;
+                       }
+                    }
+                }
+                for(int i=Square_Piece.getX()-1;i>=0;i--){//west
+                    Piece p = getPiece(i, Square_Piece.getY());
+                    if(p==null){
+                        Static_Shapes.add(new DrawingImage(active_square, new Rectangle2D.Double(Square_Width*i,Square_Width*Square_Piece.getY(), active_square.getWidth(null), active_square.getHeight(null))));
+                    }
+                    if(p!=null){
+                        if(p.isWhite()){
+                            Static_Shapes.add(new DrawingImage(active_square, new Rectangle2D.Double(Square_Width*i,Square_Width*Square_Piece.getY(), active_square.getWidth(null), active_square.getHeight(null))));
+                            break;      
+                        }
+                       if(p.isBlack()){
+                           break;
+                       }
+                    }
+                }
+            }
+        }
+
+        if(Square_Piece.PIECETYPE.equals("BISHOP")){
+            if(Square_Piece.isWhite()){
+                for(int i=Square_Piece.getX()+1, j=Square_Piece.getY()-1;i<=7&&j>=0;i++,j--){//northeast
+                    Piece p = getPiece(i, j);
+                    if(p==null){
+                        Static_Shapes.add(new DrawingImage(active_square, new Rectangle2D.Double(Square_Width*i,Square_Width*j, active_square.getWidth(null), active_square.getHeight(null))));
+                    }
+                    if(p!=null){
+                        if(p.isBlack()){
+                            Static_Shapes.add(new DrawingImage(active_square, new Rectangle2D.Double(Square_Width*i,Square_Width*j, active_square.getWidth(null), active_square.getHeight(null))));
+                            break;       
+                        }
+                       if(p.isWhite()){
+                           break;
+                       }
+                    }
+                }
+                for(int i=Square_Piece.getX()+1, j=Square_Piece.getY()+1;i<=7&&j<=7;i++,j++){//southeast
+                    Piece p = getPiece(i, j);
+                    if(p==null){
+                        Static_Shapes.add(new DrawingImage(active_square, new Rectangle2D.Double(Square_Width*i,Square_Width*j, active_square.getWidth(null), active_square.getHeight(null))));
+                    }
+                    if(p!=null){
+                        if(p.isBlack()){
+                            Static_Shapes.add(new DrawingImage(active_square, new Rectangle2D.Double(Square_Width*i,Square_Width*j, active_square.getWidth(null), active_square.getHeight(null))));
+                            break;      
+                        }
+                       if(p.isWhite()){
+                           break;
+                       }
+                    }
+                }
+                for(int i=Square_Piece.getX()-1, j=Square_Piece.getY()-1;i>=0&&j>=0;i--,j--){//northwest
+                    Piece p = getPiece(i, j);
+                    if(p==null){
+                        Static_Shapes.add(new DrawingImage(active_square, new Rectangle2D.Double(Square_Width*i,Square_Width*j, active_square.getWidth(null), active_square.getHeight(null))));
+                    }
+                    if(p!=null){
+                        if(p.isBlack()){
+                            Static_Shapes.add(new DrawingImage(active_square, new Rectangle2D.Double(Square_Width*i,Square_Width*j, active_square.getWidth(null), active_square.getHeight(null))));
+                            break;          
+                        }
+                       if(p.isWhite()){
+                           break;
+                       }
+                    }
+                }
+                for(int i=Square_Piece.getX()-1, j=Square_Piece.getY()+1;i>=0&&j<=7;i--,j++){//southwest
+                    Piece p = getPiece(i, j);
+                    if(p==null){
+                        Static_Shapes.add(new DrawingImage(active_square, new Rectangle2D.Double(Square_Width*i,Square_Width*j, active_square.getWidth(null), active_square.getHeight(null))));
+                    }
+                    if(p!=null){
+                        if(p.isBlack()){
+                            Static_Shapes.add(new DrawingImage(active_square, new Rectangle2D.Double(Square_Width*i,Square_Width*j, active_square.getWidth(null), active_square.getHeight(null))));
+                            break;           
+                        }
+                       if(p.isWhite()){
+                           break;
+                       }
+                    }
+                }
+            }else{//black bishop
+                for(int i=Square_Piece.getX()+1, j=Square_Piece.getY()-1;i<=7&&j>=0;i++,j--){//northeast
+                    Piece p = getPiece(i, j);
+                    if(p==null){
+                        Static_Shapes.add(new DrawingImage(active_square, new Rectangle2D.Double(Square_Width*i,Square_Width*j, active_square.getWidth(null), active_square.getHeight(null))));
+                    }
+                    if(p!=null){
+                        if(p.isWhite()){
+                            Static_Shapes.add(new DrawingImage(active_square, new Rectangle2D.Double(Square_Width*i,Square_Width*j, active_square.getWidth(null), active_square.getHeight(null))));
+                            break;        
+                        }
+                       if(p.isBlack()){
+                           break;
+                       }
+                    }
+                }
+                for(int i=Square_Piece.getX()+1, j=Square_Piece.getY()+1;i<=7&&j<=7;i++,j++){//southeast
+                    Piece p = getPiece(i, j);
+                    if(p==null){
+                        Static_Shapes.add(new DrawingImage(active_square, new Rectangle2D.Double(Square_Width*i,Square_Width*j, active_square.getWidth(null), active_square.getHeight(null))));
+                    }
+                    if(p!=null){
+                        if(p.isWhite()){
+                            Static_Shapes.add(new DrawingImage(active_square, new Rectangle2D.Double(Square_Width*i,Square_Width*j, active_square.getWidth(null), active_square.getHeight(null))));
+                            break;                     
+                        }
+                       if(p.isBlack()){
+                           break;
+                       }
+                    }
+                }
+                for(int i=Square_Piece.getX()-1, j=Square_Piece.getY()-1;i>=0&&j>=0;i--,j--){//northwest
+                    Piece p = getPiece(i, j);
+                    if(p==null){
+                        Static_Shapes.add(new DrawingImage(active_square, new Rectangle2D.Double(Square_Width*i,Square_Width*j, active_square.getWidth(null), active_square.getHeight(null))));
+                    }
+                    if(p!=null){
+                        if(p.isWhite()){
+                            Static_Shapes.add(new DrawingImage(active_square, new Rectangle2D.Double(Square_Width*i,Square_Width*j, active_square.getWidth(null), active_square.getHeight(null))));
+                            break;          
+                        }
+                       if(p.isBlack()){
+                           break;
+                       }
+                    }
+                }
+                for(int i=Square_Piece.getX()-1, j=Square_Piece.getY()+1;i>=0&&j<=7;i--,j++){//southwest
+                    Piece p = getPiece(i, j);
+                    if(p==null){
+                        Static_Shapes.add(new DrawingImage(active_square, new Rectangle2D.Double(Square_Width*i,Square_Width*j, active_square.getWidth(null), active_square.getHeight(null))));
+                    }
+                    if(p!=null){
+                        if(p.isWhite()){
+                            Static_Shapes.add(new DrawingImage(active_square, new Rectangle2D.Double(Square_Width*i,Square_Width*j, active_square.getWidth(null), active_square.getHeight(null))));
+                            break;           
+                        }
+                       if(p.isBlack()){
+                           break;
+                       }
+                    }
+                }
+            }
+        }
+
+        if(Square_Piece.PIECETYPE.equals("KNIGHT")){
+            int x,y;
+            if(Square_Piece.isWhite()){
+                Piece p;
+                x = Square_Piece.getX()+2;
+                y = Square_Piece.getY()-1;
+                if((x<=7&&x>=0)&&(y<=7&&y>=0)){
+                    p = getPiece(x,y);
+                    if(p==null){
+                        Static_Shapes.add(new DrawingImage(active_square, new Rectangle2D.Double(Square_Width*x,Square_Width*y, active_square.getWidth(null), active_square.getHeight(null))));
+                    }
+                    if(p!=null){
+                        if(p.isBlack()){
+                            Static_Shapes.add(new DrawingImage(active_square, new Rectangle2D.Double(Square_Width*x,Square_Width*y, active_square.getWidth(null), active_square.getHeight(null))));
+                        }
+                    }
+                }
+                x = Square_Piece.getX()+2; 
+                y = Square_Piece.getY()+1;
+                if((x<=7&&x>=0)&&(y<=7&&y>=0)){
+                    p = getPiece(x,y);
+                    if(p==null){
+                        Static_Shapes.add(new DrawingImage(active_square, new Rectangle2D.Double(Square_Width*x,Square_Width*y, active_square.getWidth(null), active_square.getHeight(null))));
+                    }
+                    if(p!=null){
+                        if(p.isBlack()){
+                            Static_Shapes.add(new DrawingImage(active_square, new Rectangle2D.Double(Square_Width*x,Square_Width*y, active_square.getWidth(null), active_square.getHeight(null))));
+                        }
+                    }
+                }
+                x = Square_Piece.getX()+1; 
+                y = Square_Piece.getY()+2;          
+                if((x<=7&&x>=0)&&(y<=7&&y>=0)){
+                    p = getPiece(x,y);
+                    if(p==null){
+                        Static_Shapes.add(new DrawingImage(active_square, new Rectangle2D.Double(Square_Width*x,Square_Width*y, active_square.getWidth(null), active_square.getHeight(null))));
+                    }
+                    if(p!=null){
+                        if(p.isBlack()){
+                            Static_Shapes.add(new DrawingImage(active_square, new Rectangle2D.Double(Square_Width*x,Square_Width*y, active_square.getWidth(null), active_square.getHeight(null))));
+                        }
+                    }
+                }
+                x = Square_Piece.getX()-1; 
+                y = Square_Piece.getY()+2;          
+                if((x<=7&&x>=0)&&(y<=7&&y>=0)){
+                    p = getPiece(x,y);
+                    if(p==null){
+                        Static_Shapes.add(new DrawingImage(active_square, new Rectangle2D.Double(Square_Width*x,Square_Width*y, active_square.getWidth(null), active_square.getHeight(null))));
+                    }
+                    if(p!=null){
+                        if(p.isBlack()){
+                            Static_Shapes.add(new DrawingImage(active_square, new Rectangle2D.Double(Square_Width*x,Square_Width*y, active_square.getWidth(null), active_square.getHeight(null))));
+                        }
+                    }
+                }         
+                x = Square_Piece.getX()-2; 
+                y = Square_Piece.getY()+1;       
+                if((x<=7&&x>=0)&&(y<=7&&y>=0)){
+                    p = getPiece(x,y);
+                    if(p==null){
+                        Static_Shapes.add(new DrawingImage(active_square, new Rectangle2D.Double(Square_Width*x,Square_Width*y, active_square.getWidth(null), active_square.getHeight(null))));
+                    }
+                    if(p!=null){
+                        if(p.isBlack()){
+                            Static_Shapes.add(new DrawingImage(active_square, new Rectangle2D.Double(Square_Width*x,Square_Width*y, active_square.getWidth(null), active_square.getHeight(null))));
+                        }
+                    }
+                }
+                x = Square_Piece.getX()-2; 
+                y = Square_Piece.getY()-1;    
+                if((x<=7&&x>=0)&&(y<=7&&y>=0)){
+                    p = getPiece(x,y);
+                    if(p==null){
+                        Static_Shapes.add(new DrawingImage(active_square, new Rectangle2D.Double(Square_Width*x,Square_Width*y, active_square.getWidth(null), active_square.getHeight(null))));
+                    }
+                    if(p!=null){
+                        if(p.isBlack()){
+                            Static_Shapes.add(new DrawingImage(active_square, new Rectangle2D.Double(Square_Width*x,Square_Width*y, active_square.getWidth(null), active_square.getHeight(null))));
+                        }
+                    }
+                }
+                x = Square_Piece.getX()-1; 
+                y = Square_Piece.getY()-2;   
+                if((x<=7&&x>=0)&&(y<=7&&y>=0)){
+                    p = getPiece(x,y);
+                    if(p==null){
+                        Static_Shapes.add(new DrawingImage(active_square, new Rectangle2D.Double(Square_Width*x,Square_Width*y, active_square.getWidth(null), active_square.getHeight(null))));
+                    }
+                    if(p!=null){
+                        if(p.isBlack()){
+                            Static_Shapes.add(new DrawingImage(active_square, new Rectangle2D.Double(Square_Width*x,Square_Width*y, active_square.getWidth(null), active_square.getHeight(null))));
+                        }
+                    }
+                }
+                x = Square_Piece.getX()+1; 
+                y = Square_Piece.getY()-2;  
+                if((x<=7&&x>=0)&&(y<=7&&y>=0)){
+                    p = getPiece(x,y);
+                    if(p==null){
+                        Static_Shapes.add(new DrawingImage(active_square, new Rectangle2D.Double(Square_Width*x,Square_Width*y, active_square.getWidth(null), active_square.getHeight(null))));
+                    }
+                    if(p!=null){
+                        if(p.isBlack()){
+                            Static_Shapes.add(new DrawingImage(active_square, new Rectangle2D.Double(Square_Width*x,Square_Width*y, active_square.getWidth(null), active_square.getHeight(null))));
+                        }
+                    }
+                }
+            }else{//black knight
+                Piece p;
+                x = Square_Piece.getX()+2;
+                y = Square_Piece.getY()-1;
+                if((x<=7&&x>=0)&&(y<=7&&y>=0)){
+                    p = getPiece(x,y);
+                    if(p==null){
+                        Static_Shapes.add(new DrawingImage(active_square, new Rectangle2D.Double(Square_Width*x,Square_Width*y, active_square.getWidth(null), active_square.getHeight(null))));
+                    }
+                    if(p!=null){
+                        if(p.isWhite()){
+                            Static_Shapes.add(new DrawingImage(active_square, new Rectangle2D.Double(Square_Width*x,Square_Width*y, active_square.getWidth(null), active_square.getHeight(null))));
+                        }
+                    }
+                }
+                x = Square_Piece.getX()+2; 
+                y = Square_Piece.getY()+1;
+                if((x<=7&&x>=0)&&(y<=7&&y>=0)){
+                    p = getPiece(x,y);
+                    if(p==null){
+                        Static_Shapes.add(new DrawingImage(active_square, new Rectangle2D.Double(Square_Width*x,Square_Width*y, active_square.getWidth(null), active_square.getHeight(null))));
+                    }
+                    if(p!=null){
+                        if(p.isWhite()){
+                            Static_Shapes.add(new DrawingImage(active_square, new Rectangle2D.Double(Square_Width*x,Square_Width*y, active_square.getWidth(null), active_square.getHeight(null))));
+                        }
+                    }
+                }
+                x = Square_Piece.getX()+1; 
+                y = Square_Piece.getY()+2;          
+                if((x<=7&&x>=0)&&(y<=7&&y>=0)){
+                    p = getPiece(x,y);
+                    if(p==null){
+                        Static_Shapes.add(new DrawingImage(active_square, new Rectangle2D.Double(Square_Width*x,Square_Width*y, active_square.getWidth(null), active_square.getHeight(null))));
+                    }
+                    if(p!=null){
+                        if(p.isWhite()){
+                            Static_Shapes.add(new DrawingImage(active_square, new Rectangle2D.Double(Square_Width*x,Square_Width*y, active_square.getWidth(null), active_square.getHeight(null))));
+                        }
+                    }
+                }
+                x = Square_Piece.getX()-1; 
+                y = Square_Piece.getY()+2;          
+                if((x<=7&&x>=0)&&(y<=7&&y>=0)){
+                    p = getPiece(x,y);
+                    if(p==null){
+                        Static_Shapes.add(new DrawingImage(active_square, new Rectangle2D.Double(Square_Width*x,Square_Width*y, active_square.getWidth(null), active_square.getHeight(null))));
+                    }
+                    if(p!=null){
+                        if(p.isWhite()){
+                            Static_Shapes.add(new DrawingImage(active_square, new Rectangle2D.Double(Square_Width*x,Square_Width*y, active_square.getWidth(null), active_square.getHeight(null))));
+                        }
+                    }
+                }         
+                x = Square_Piece.getX()-2; 
+                y = Square_Piece.getY()+1;       
+                if((x<=7&&x>=0)&&(y<=7&&y>=0)){
+                    p = getPiece(x,y);
+                    if(p==null){
+                        Static_Shapes.add(new DrawingImage(active_square, new Rectangle2D.Double(Square_Width*x,Square_Width*y, active_square.getWidth(null), active_square.getHeight(null))));
+                    }
+                    if(p!=null){
+                        if(p.isWhite()){
+                            Static_Shapes.add(new DrawingImage(active_square, new Rectangle2D.Double(Square_Width*x,Square_Width*y, active_square.getWidth(null), active_square.getHeight(null))));
+                        }
+                    }
+                }
+                x = Square_Piece.getX()-2; 
+                y = Square_Piece.getY()-1;    
+                if((x<=7&&x>=0)&&(y<=7&&y>=0)){
+                    p = getPiece(x,y);
+                    if(p==null){
+                        Static_Shapes.add(new DrawingImage(active_square, new Rectangle2D.Double(Square_Width*x,Square_Width*y, active_square.getWidth(null), active_square.getHeight(null))));
+                    }
+                    if(p!=null){
+                        if(p.isWhite()){
+                            Static_Shapes.add(new DrawingImage(active_square, new Rectangle2D.Double(Square_Width*x,Square_Width*y, active_square.getWidth(null), active_square.getHeight(null))));
+                        }
+                    }
+                }
+                x = Square_Piece.getX()-1; 
+                y = Square_Piece.getY()-2;   
+                if((x<=7&&x>=0)&&(y<=7&&y>=0)){
+                    p = getPiece(x,y);
+                    if(p==null){
+                        Static_Shapes.add(new DrawingImage(active_square, new Rectangle2D.Double(Square_Width*x,Square_Width*y, active_square.getWidth(null), active_square.getHeight(null))));
+                    }
+                    if(p!=null){
+                        if(p.isWhite()){
+                            Static_Shapes.add(new DrawingImage(active_square, new Rectangle2D.Double(Square_Width*x,Square_Width*y, active_square.getWidth(null), active_square.getHeight(null))));
+                        }
+                    }
+                }
+                x = Square_Piece.getX()+1; 
+                y = Square_Piece.getY()-2;  
+                if((x<=7&&x>=0)&&(y<=7&&y>=0)){
+                    p = getPiece(x,y);
+                    if(p==null){
+                        Static_Shapes.add(new DrawingImage(active_square, new Rectangle2D.Double(Square_Width*x,Square_Width*y, active_square.getWidth(null), active_square.getHeight(null))));
+                    }
+                    if(p!=null){
+                        if(p.isWhite()){
+                            Static_Shapes.add(new DrawingImage(active_square, new Rectangle2D.Double(Square_Width*x,Square_Width*y, active_square.getWidth(null), active_square.getHeight(null))));
+                        }
+                    }
+                }
+            }    
+        }
+
+        if(Square_Piece.PIECETYPE.equals("KING")){
+            if(Square_Piece.isWhite()){
+                Piece p;
+                int x,y;
+
+                x=Square_Piece.getX()+1;//east
+                y=Square_Piece.getY();
+
+                if((x<=7&&x>=0)&&(y<=7&&y>=0)){
+                    p = getPiece(x,y);
+                    if(p==null){
+                        Static_Shapes.add(new DrawingImage(active_square, new Rectangle2D.Double(Square_Width*x,Square_Width*y, active_square.getWidth(null), active_square.getHeight(null))));
+                    }
+                    if(p!=null){
+                        if(p.isBlack()){
+                            Static_Shapes.add(new DrawingImage(active_square, new Rectangle2D.Double(Square_Width*x,Square_Width*y, active_square.getWidth(null), active_square.getHeight(null))));
+                        }
+                    }
+                }
+
+                x=Square_Piece.getX()-1;//west
+                y=Square_Piece.getY();
+
+                if((x<=7&&x>=0)&&(y<=7&&y>=0)){
+                    p = getPiece(x,y);
+                    if(p==null){
+                        Static_Shapes.add(new DrawingImage(active_square, new Rectangle2D.Double(Square_Width*x,Square_Width*y, active_square.getWidth(null), active_square.getHeight(null))));
+                    }
+                    if(p!=null){
+                        if(p.isBlack()){
+                            Static_Shapes.add(new DrawingImage(active_square, new Rectangle2D.Double(Square_Width*x,Square_Width*y, active_square.getWidth(null), active_square.getHeight(null))));
+                        }
+                    }
+                }
+
+                x=Square_Piece.getX();//north
+                y=Square_Piece.getY()-1;
+
+                if((x<=7&&x>=0)&&(y<=7&&y>=0)){
+                    p = getPiece(x,y);
+                    if(p==null){
+                        Static_Shapes.add(new DrawingImage(active_square, new Rectangle2D.Double(Square_Width*x,Square_Width*y, active_square.getWidth(null), active_square.getHeight(null))));
+                    }
+                    if(p!=null){
+                        if(p.isBlack()){
+                            Static_Shapes.add(new DrawingImage(active_square, new Rectangle2D.Double(Square_Width*x,Square_Width*y, active_square.getWidth(null), active_square.getHeight(null))));
+                        }
+                    }
+                }                
+
+                x=Square_Piece.getX();//south
+                y=Square_Piece.getY()+1;
+
+                if((x<=7&&x>=0)&&(y<=7&&y>=0)){
+                    p = getPiece(x,y);
+                    if(p==null){
+                        Static_Shapes.add(new DrawingImage(active_square, new Rectangle2D.Double(Square_Width*x,Square_Width*y, active_square.getWidth(null), active_square.getHeight(null))));
+                    }
+                    if(p!=null){
+                        if(p.isBlack()){
+                            Static_Shapes.add(new DrawingImage(active_square, new Rectangle2D.Double(Square_Width*x,Square_Width*y, active_square.getWidth(null), active_square.getHeight(null))));
+                        }
+                    }
+                }
+
+                x=Square_Piece.getX()+1;//northeast
+                y=Square_Piece.getY()-1;
+
+                if((x<=7&&x>=0)&&(y<=7&&y>=0)){
+                    p = getPiece(x,y);
+                    if(p==null){
+                        Static_Shapes.add(new DrawingImage(active_square, new Rectangle2D.Double(Square_Width*x,Square_Width*y, active_square.getWidth(null), active_square.getHeight(null))));
+                    }
+                    if(p!=null){
+                        if(p.isBlack()){
+                            Static_Shapes.add(new DrawingImage(active_square, new Rectangle2D.Double(Square_Width*x,Square_Width*y, active_square.getWidth(null), active_square.getHeight(null))));
+                        }
+                    }
+                }
+
+                x=Square_Piece.getX()-1;//northwest
+                y=Square_Piece.getY()-1;
+
+                if((x<=7&&x>=0)&&(y<=7&&y>=0)){
+                    p = getPiece(x,y);
+                    if(p==null){
+                        Static_Shapes.add(new DrawingImage(active_square, new Rectangle2D.Double(Square_Width*x,Square_Width*y, active_square.getWidth(null), active_square.getHeight(null))));
+                    }
+                    if(p!=null){
+                        if(p.isBlack()){
+                            Static_Shapes.add(new DrawingImage(active_square, new Rectangle2D.Double(Square_Width*x,Square_Width*y, active_square.getWidth(null), active_square.getHeight(null))));
+                        }
+                    }
+                }
+
+                x=Square_Piece.getX()+1;//southeast
+                y=Square_Piece.getY()+1;
+
+                if((x<=7&&x>=0)&&(y<=7&&y>=0)){
+                    p = getPiece(x,y);
+                    if(p==null){
+                        Static_Shapes.add(new DrawingImage(active_square, new Rectangle2D.Double(Square_Width*x,Square_Width*y, active_square.getWidth(null), active_square.getHeight(null))));
+                    }
+                    if(p!=null){
+                        if(p.isBlack()){
+                            Static_Shapes.add(new DrawingImage(active_square, new Rectangle2D.Double(Square_Width*x,Square_Width*y, active_square.getWidth(null), active_square.getHeight(null))));
+                        }
+                    }
+                }
+
+                x=Square_Piece.getX()-1;//southwest
+                y=Square_Piece.getY()+1;
+
+                if((x<=7&&x>=0)&&(y<=7&&y>=0)){
+                    p = getPiece(x,y);
+                    if(p==null){
+                        Static_Shapes.add(new DrawingImage(active_square, new Rectangle2D.Double(Square_Width*x,Square_Width*y, active_square.getWidth(null), active_square.getHeight(null))));
+                    }
+                    if(p!=null){
+                        if(p.isBlack()){
+                            Static_Shapes.add(new DrawingImage(active_square, new Rectangle2D.Double(Square_Width*x,Square_Width*y, active_square.getWidth(null), active_square.getHeight(null))));
+                        }
+                    }
+                }
+            }else{//black king
+                Piece p;
+                int x,y;
+
+                x=Square_Piece.getX()+1;//east
+                y=Square_Piece.getY();
+
+                if((x<=7&&x>=0)&&(y<=7&&y>=0)){
+                    p = getPiece(x,y);
+                    if(p==null){
+                        Static_Shapes.add(new DrawingImage(active_square, new Rectangle2D.Double(Square_Width*x,Square_Width*y, active_square.getWidth(null), active_square.getHeight(null))));
+                    }
+                    if(p!=null){
+                        if(p.isWhite()){
+                            Static_Shapes.add(new DrawingImage(active_square, new Rectangle2D.Double(Square_Width*x,Square_Width*y, active_square.getWidth(null), active_square.getHeight(null))));
+                        }
+                    }
+                }
+
+                x=Square_Piece.getX()-1;//west
+                y=Square_Piece.getY();
+
+                if((x<=7&&x>=0)&&(y<=7&&y>=0)){
+                    p = getPiece(x,y);
+                    if(p==null){
+                        Static_Shapes.add(new DrawingImage(active_square, new Rectangle2D.Double(Square_Width*x,Square_Width*y, active_square.getWidth(null), active_square.getHeight(null))));
+                    }
+                    if(p!=null){
+                        if(p.isWhite()){
+                            Static_Shapes.add(new DrawingImage(active_square, new Rectangle2D.Double(Square_Width*x,Square_Width*y, active_square.getWidth(null), active_square.getHeight(null))));
+                        }
+                    }
+                }
+
+                x=Square_Piece.getX();//north
+                y=Square_Piece.getY()-1;
+
+                if((x<=7&&x>=0)&&(y<=7&&y>=0)){
+                    p = getPiece(x,y);
+                    if(p==null){
+                        Static_Shapes.add(new DrawingImage(active_square, new Rectangle2D.Double(Square_Width*x,Square_Width*y, active_square.getWidth(null), active_square.getHeight(null))));
+                    }
+                    if(p!=null){
+                        if(p.isWhite()){
+                            Static_Shapes.add(new DrawingImage(active_square, new Rectangle2D.Double(Square_Width*x,Square_Width*y, active_square.getWidth(null), active_square.getHeight(null))));
+                        }
+                    }
+                }                
+
+                x=Square_Piece.getX();//south
+                y=Square_Piece.getY()+1;
+
+                if((x<=7&&x>=0)&&(y<=7&&y>=0)){
+                    p = getPiece(x,y);
+                    if(p==null){
+                        Static_Shapes.add(new DrawingImage(active_square, new Rectangle2D.Double(Square_Width*x,Square_Width*y, active_square.getWidth(null), active_square.getHeight(null))));
+                    }
+                    if(p!=null){
+                        if(p.isWhite()){
+                            Static_Shapes.add(new DrawingImage(active_square, new Rectangle2D.Double(Square_Width*x,Square_Width*y, active_square.getWidth(null), active_square.getHeight(null))));
+                        }
+                    }
+                }
+
+                x=Square_Piece.getX()+1;//northeast
+                y=Square_Piece.getY()-1;
+
+                if((x<=7&&x>=0)&&(y<=7&&y>=0)){
+                    p = getPiece(x,y);
+                    if(p==null){
+                        Static_Shapes.add(new DrawingImage(active_square, new Rectangle2D.Double(Square_Width*x,Square_Width*y, active_square.getWidth(null), active_square.getHeight(null))));
+                    }
+                    if(p!=null){
+                        if(p.isWhite()){
+                            Static_Shapes.add(new DrawingImage(active_square, new Rectangle2D.Double(Square_Width*x,Square_Width*y, active_square.getWidth(null), active_square.getHeight(null))));
+                        }
+                    }
+                }
+
+                x=Square_Piece.getX()-1;//northwest
+                y=Square_Piece.getY()-1;
+
+                if((x<=7&&x>=0)&&(y<=7&&y>=0)){
+                    p = getPiece(x,y);
+                    if(p==null){
+                        Static_Shapes.add(new DrawingImage(active_square, new Rectangle2D.Double(Square_Width*x,Square_Width*y, active_square.getWidth(null), active_square.getHeight(null))));
+                    }
+                    if(p!=null){
+                        if(p.isWhite()){
+                            Static_Shapes.add(new DrawingImage(active_square, new Rectangle2D.Double(Square_Width*x,Square_Width*y, active_square.getWidth(null), active_square.getHeight(null))));
+                        }
+                    }
+                }
+
+                x=Square_Piece.getX()+1;//southeast
+                y=Square_Piece.getY()+1;
+
+                if((x<=7&&x>=0)&&(y<=7&&y>=0)){
+                    p = getPiece(x,y);
+                    if(p==null){
+                        Static_Shapes.add(new DrawingImage(active_square, new Rectangle2D.Double(Square_Width*x,Square_Width*y, active_square.getWidth(null), active_square.getHeight(null))));
+                    }
+                    if(p!=null){
+                        if(p.isWhite()){
+                            Static_Shapes.add(new DrawingImage(active_square, new Rectangle2D.Double(Square_Width*x,Square_Width*y, active_square.getWidth(null), active_square.getHeight(null))));
+                        }
+                    }
+                }
+
+                x=Square_Piece.getX()-1;//southwest
+                y=Square_Piece.getY()+1;
+
+                if((x<=7&&x>=0)&&(y<=7&&y>=0)){
+                    p = getPiece(x,y);
+                    if(p==null){
+                        Static_Shapes.add(new DrawingImage(active_square, new Rectangle2D.Double(Square_Width*x,Square_Width*y, active_square.getWidth(null), active_square.getHeight(null))));
+                    }
+                    if(p!=null){
+                        if(p.isWhite()){
+                            Static_Shapes.add(new DrawingImage(active_square, new Rectangle2D.Double(Square_Width*x,Square_Width*y, active_square.getWidth(null), active_square.getHeight(null))));
+                        }
+                    }
+                }
+            }
+        }
+
+        if(Square_Piece.PIECETYPE.equals("PAWN")){
+            Piece p,p2,p3;
+            int x,y;
+            if(Square_Piece.isWhite()){
+                p = getPiece(Square_Piece.getX(),Square_Piece.getY()-1);
+                    if(Square_Piece.getY()==6){
+                        if(Square_Piece.has_moved==false){
+                            p2 = getPiece(Square_Piece.getX(), Square_Piece.getY()-1);
+                            p3 = getPiece(Square_Piece.getX(), Square_Piece.getY()-2);
+                            if(p2==null){
+                                Static_Shapes.add(new DrawingImage(active_square, new Rectangle2D.Double(Square_Width*Square_Piece.getX(),Square_Width*5, active_square.getWidth(null), active_square.getHeight(null))));
+                                if(p3==null){
+                                    Static_Shapes.add(new DrawingImage(active_square, new Rectangle2D.Double(Square_Width*Square_Piece.getX(),Square_Width*4, active_square.getWidth(null), active_square.getHeight(null))));
+                                }
+                            }
+                        }
+                    }else{
+                        if(p==null){
+                            Static_Shapes.add(new DrawingImage(active_square, new Rectangle2D.Double(Square_Width*Square_Piece.getX(),Square_Width*(Square_Piece.getY()-1), active_square.getWidth(null), active_square.getHeight(null))));
+                        }
+                    }
+                    p = getPiece(Square_Piece.getX(),Square_Piece.getY());
+                    if(p==null){
+                        Static_Shapes.add(new DrawingImage(active_square, new Rectangle2D.Double(Square_Width*Square_Piece.getX(),Square_Width*(Square_Piece.getY()-1), active_square.getWidth(null), active_square.getHeight(null))));
+                    }         
+                    x = Square_Piece.getX()+1;
+                    y = Square_Piece.getY()-1;
+                    if((x<=7&&x>=0)&&(y<=7&&y>=0)){
+                        p = getPiece(x,y);
+                        if(p!=null){
+                            if(p.isBlack()){
+                                Static_Shapes.add(new DrawingImage(active_square, new Rectangle2D.Double(Square_Width*x,Square_Width*y, active_square.getWidth(null), active_square.getHeight(null))));
+                            }
+                        }
+                    }
+                    x = Square_Piece.getX()-1;
+                    y = Square_Piece.getY()-1;
+                    if((x<=7&&x>=0)&&(y<=7&&y>=0)){
+                        p = getPiece(x,y);
+                        if(p!=null){
+                            if(p.isBlack()){
+                                Static_Shapes.add(new DrawingImage(active_square, new Rectangle2D.Double(Square_Width*x,Square_Width*y, active_square.getWidth(null), active_square.getHeight(null))));
+                            }
+                        }
+                    }
+            }else{//black pawn
+                p = getPiece(Square_Piece.getX(),Square_Piece.getY()+1);
+                    if(Square_Piece.getY()==1){
+                        if(Square_Piece.has_moved==false){
+                            p2 = getPiece(Square_Piece.getX(), Square_Piece.getY()+1);
+                            p3 = getPiece(Square_Piece.getX(), Square_Piece.getY()+2);
+                            if(p2==null){
+                                Static_Shapes.add(new DrawingImage(active_square, new Rectangle2D.Double(Square_Width*Square_Piece.getX(),Square_Width*2, active_square.getWidth(null), active_square.getHeight(null))));
+                                if(p3==null){
+                                    Static_Shapes.add(new DrawingImage(active_square, new Rectangle2D.Double(Square_Width*Square_Piece.getX(),Square_Width*3, active_square.getWidth(null), active_square.getHeight(null))));
+                                }
+                            }
+                        }
+                    }else{
+                        if(p==null){
+                            Static_Shapes.add(new DrawingImage(active_square, new Rectangle2D.Double(Square_Width*Square_Piece.getX(),Square_Width*(Square_Piece.getY()+1), active_square.getWidth(null), active_square.getHeight(null))));
+                        }
+                    }
+                    p = getPiece(Square_Piece.getX(),Square_Piece.getY());
+                    if(p==null){
+                        Static_Shapes.add(new DrawingImage(active_square, new Rectangle2D.Double(Square_Width*Square_Piece.getX(),Square_Width*(Square_Piece.getY()+1), active_square.getWidth(null), active_square.getHeight(null))));
+                    }         
+                    x = Square_Piece.getX()+1;
+                    y = Square_Piece.getY()+1;
+                    if((x<=7&&x>=0)&&(y<=7&&y>=0)){
+                        p = getPiece(x,y);
+                        if(p!=null){
+                            if(p.isWhite()){
+                                Static_Shapes.add(new DrawingImage(active_square, new Rectangle2D.Double(Square_Width*x,Square_Width*y, active_square.getWidth(null), active_square.getHeight(null))));
+                            }
+                        }
+                    }
+                    x = Square_Piece.getX()-1;
+                    y = Square_Piece.getY()+1;
+                    if((x<=7&&x>=0)&&(y<=7&&y>=0)){
+                        p = getPiece(x,y);
+                        if(p!=null){
+                            if(p.isWhite()){
+                                Static_Shapes.add(new DrawingImage(active_square, new Rectangle2D.Double(Square_Width*x,Square_Width*y, active_square.getWidth(null), active_square.getHeight(null))));
+                            }
+                        }
+                    }
+            }
+        }
+    }
+
     public boolean validation(int destination_x, int destination_y, String pieceType){
         int a,i,j,x,y;
         
