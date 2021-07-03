@@ -24,7 +24,6 @@ public class Board extends JComponent {
 
     public ArrayList<DrawingShape> Static_Shapes;
     public ArrayList<DrawingShape> Piece_Graphics;
-    public ArrayList<DrawingShape> Promotion_Pieces;
 
     public Piece Active_Piece;
     public Piece candidate_Piece;
@@ -37,6 +36,9 @@ public class Board extends JComponent {
     private String active_square_file_path = "images" + File.separator + "active_square.png";
 
     public void initGrid(Piece P,int row, int col){
+         Object[] option = {
+            "Queen" , "Rook", "Bishop", "Knight"
+        };
         for (int i = 0; i < rows; i++){
             for (int j = 0; j < cols; j++){
                 BoardGrid[i][j] = 0;
@@ -81,10 +83,30 @@ public class Board extends JComponent {
             White_Pieces.add(new Pawn(7,6,true,"Pawn.png",this,"PAWN",false));            
         }else{
             if(P.isWhite()){
-                White_Pieces.add(new Queen(col,row,true,"Queen.png",this,"QUEEN",false)); 
-    
+                   
+       int button_pressed = JOptionPane.showOptionDialog(null, "Choose Piece" ,"Promotion",JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, option, option[0] );
+        if (button_pressed == 0){
+            White_Pieces.add(new Queen(col,row,true,"Queen.png",this,"QUEEN",false)); 
+        }else if(button_pressed == 1){
+            White_Pieces.add(new Rook(col,row,true,"Rook.png",this,"ROOK",false)); 
+        }else if(button_pressed == 2){
+            White_Pieces.add(new Bishop(col,row,true,"Bishop.png",this,"BISHOP",false)); 
+        }else if(button_pressed == 3){
+            White_Pieces.add(new Knight(col,row,true,"Knight.png",this,"KNIGHT",false)); 
+        }
+
             }else{
-                Black_Pieces.add(new Queen(col,row,false,"Queen.png",this,"QUEEN",false));           
+    int button_pressed = JOptionPane.showOptionDialog(null, "Choose Piece" ,"Promotion",JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, option, option[0] );
+        if (button_pressed == 0){
+            Black_Pieces.add(new Queen(col,row,false,"Queen.png",this,"QUEEN",false)); 
+        }else if(button_pressed == 1){
+            Black_Pieces.add(new Rook(col,row,false,"Rook.png",this,"ROOK",false)); 
+        }else if(button_pressed == 2){
+            Black_Pieces.add(new Bishop(col,row,false,"Bishop.png",this,"BISHOP",false)); 
+        }else if(button_pressed == 3){
+            Black_Pieces.add(new Knight(col,row,false,"Knight.png",this,"KNIGHT",false)); 
+        }
+               
             }
         }    
     }
@@ -101,7 +123,7 @@ public class Board extends JComponent {
 
         initGrid(P,0,0);
 
-        this.setBackground(new Color(37,13,84));
+        this.setBackground(new Color(255,255,255));
         this.setPreferredSize(new Dimension(520, 570));
         this.setMinimumSize(new Dimension(100, 100));
         this.setMaximumSize(new Dimension(1000, 1000));
@@ -109,7 +131,8 @@ public class Board extends JComponent {
         this.addMouseListener(mouseAdapter);
         this.addComponentListener(componentAdapter);
         this.addKeyListener(keyAdapter);
-   
+        
+        this.setEnabled(false);
         this.setVisible(true);
         this.requestFocus();
         drawBoard();
@@ -168,7 +191,7 @@ public class Board extends JComponent {
             int d_Y = e.getY();  
         
             int Clicked_Row = d_Y / Square_Width;
-        
+            
             int Clicked_Column = d_X / Square_Width;
         
             boolean is_whites_turn = true;

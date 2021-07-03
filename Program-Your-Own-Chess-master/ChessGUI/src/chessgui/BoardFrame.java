@@ -6,16 +6,18 @@ import java.awt.Color;
 import java.awt.Component;
 import javax.swing.JFrame;
 import java.awt.event.ActionListener;
+import javax.swing.JOptionPane;
 import javax.swing.JButton;
 import javax.swing.SwingUtilities;
 import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
 
 public class BoardFrame extends JFrame  implements ActionListener{
     Component component;
- 
+    JButton Button;
     JButton resetButton;
     public BoardFrame()
     {
+        
         resetButton = new JButton();
         resetButton.setBackground(new Color(255,255,255));
         resetButton.setText("Reset");
@@ -23,6 +25,7 @@ public class BoardFrame extends JFrame  implements ActionListener{
         resetButton.setLocation(0, 520);
         resetButton.addActionListener(this);
         
+       
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         this.setTitle("Chess");
         this.setResizable(false);
@@ -31,6 +34,7 @@ public class BoardFrame extends JFrame  implements ActionListener{
         this.add(resetButton);
         this.add(component, BorderLayout.CENTER);
         this.setVisible(true);
+        
         
         this.setLocation(600, 150);
         this.pack();
