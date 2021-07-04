@@ -61,7 +61,7 @@ public class King extends Piece {
                             kingRookblack.has_moved=true; 
                             return true;  
                         }
-                        if(destination_x==2&&queenSide1black==null&&queenSide2black==null&&queenSide3black==null&&queenRookblack!=null&&this.has_moved==false&&queenRook.has_moved==false){
+                        if(destination_x==2&&queenSide1black==null&&queenSide2black==null&&queenSide3black==null&&queenRookblack!=null&&this.has_moved==false&&queenRookblack.has_moved==false){
                             queenRookblack.setX(3);
                             this.has_moved=true;  
                             queenRookblack.has_moved=true;
