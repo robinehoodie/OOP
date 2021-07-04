@@ -1103,6 +1103,22 @@ public class Board extends JComponent {
                         }
                     }
                 }
+                /////////////////////////////////////////////////////////(castling squares)
+                Piece rook, knight, bishop, queen;
+                rook = getPiece(7,7);
+                knight = getPiece(6,7);
+                bishop = getPiece(5,7);
+                if(candidate_Piece.getX()==4&&candidate_Piece.getY()==7&&candidate_Piece.has_moved==false&&rook!=null&&rook.has_moved==false&&knight==null&&bishop==null){
+                    Static_Shapes.add(new DrawingImage(active_square, new Rectangle2D.Double(Square_Width*6,Square_Width*7, active_square.getWidth(null), active_square.getHeight(null))));
+                }
+                rook = getPiece(0,7);
+                knight = getPiece(1,7);
+                bishop = getPiece(2,7);
+                queen = getPiece(3,7);
+                if(candidate_Piece.getX()==4&&candidate_Piece.getY()==7&&candidate_Piece.has_moved==false&&rook!=null&&rook.has_moved==false&&knight==null&&bishop==null&&queen==null){
+                    Static_Shapes.add(new DrawingImage(active_square, new Rectangle2D.Double(Square_Width*2,Square_Width*7, active_square.getWidth(null), active_square.getHeight(null))));
+                }
+
             }else{//black king
                 Piece p;
                 int x,y;
@@ -1225,6 +1241,20 @@ public class Board extends JComponent {
                             Static_Shapes.add(new DrawingImage(active_square, new Rectangle2D.Double(Square_Width*x,Square_Width*y, active_square.getWidth(null), active_square.getHeight(null))));
                         }
                     }
+                }
+                Piece rook, knight, bishop, queen;
+                rook = getPiece(7,0);
+                knight = getPiece(6,0);
+                bishop = getPiece(5,0);
+                if(candidate_Piece.getX()==4&&candidate_Piece.getY()==0&&candidate_Piece.has_moved==false&&rook!=null&&rook.has_moved==false&&knight==null&&bishop==null){
+                    Static_Shapes.add(new DrawingImage(active_square, new Rectangle2D.Double(Square_Width*6,Square_Width*0, active_square.getWidth(null), active_square.getHeight(null))));
+                }
+                rook = getPiece(0,0);
+                knight = getPiece(1,0);
+                bishop = getPiece(2,0);
+                queen = getPiece(3,0);
+                if(candidate_Piece.getX()==4&&candidate_Piece.getY()==0&&candidate_Piece.has_moved==false&&rook!=null&&rook.has_moved==false&&knight==null&&bishop==null&&queen==null){
+                    Static_Shapes.add(new DrawingImage(active_square, new Rectangle2D.Double(Square_Width*2,Square_Width*0, active_square.getWidth(null), active_square.getHeight(null))));
                 }
             }
         }
